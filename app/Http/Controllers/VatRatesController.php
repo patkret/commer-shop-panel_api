@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\VatRate;
 use Illuminate\Http\Request;
 
-class CategoriesController extends Controller
+class VatRatesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        return Category::paginate(10);
+        return VatRate::paginate(10);
     }
 
     /**
@@ -35,7 +35,7 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        Category::create($request->all());
+        VatRate::create($request->all());
     }
 
     /**
@@ -57,6 +57,7 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
+        //
     }
 
     /**
@@ -68,9 +69,7 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        Category::find($id)->update($request->all());
-
+        VatRate::find($id)->update($request->all());
     }
 
     /**
@@ -81,16 +80,6 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        Category::destroy($id);
-
-    }
-
-    public function duplicate($id){
-        $current_category = Category::find($id);
-//        $category_subcategories = Category::where('parent_id', $id)->get();
-        
-        $duplicate_category = $current_category->replicate();
-        $duplicate_category->name = $duplicate_category->name.'_copy';
-        $duplicate_category->save();
+        VatRate::find($id)->delete();
     }
 }
