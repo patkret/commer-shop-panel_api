@@ -31,5 +31,5 @@ class AttributeSet extends Model
 
        return $this->belongsToMany(Attribute::class, 'attribute_set_has_attribute');
     }
-    
+
 }

@@ -20,4 +20,6 @@ Route::post('/categories/{category}/duplicate', 'CategoriesController@duplicate'
 Route::resource('categories', 'CategoriesController');
 Route::resource('vat-rates', 'VatRatesController');
 Route::resource('attributes', 'AttributesController');
+Route::get('attribute-sets/{item}/list', 'AttributeSetsController@attributesList');
 Route::resource('attribute-sets', 'AttributeSetsController');
+

@@ -72,7 +72,11 @@ class AttributeSetsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $attr_set = AttributeSet::find($id);
+        $attr_set->update($request->all());
+
+        $attr_set->attributes()->sync($request->attribute_id);
+
     }
 
     /**
@@ -84,6 +88,19 @@ class AttributeSetsController extends Controller
     public function destroy($id)
     {
         AttributeSet::find($id)->delete();
+    }
+
+    public function attributesList($id){
+
+        $list = AttributeSet::find($id)->attributes->pluck('name', 'id')->toArray();
+        $attr_list = [];
+
+        foreach($list as $key => $value){
+
+            $attr_list[] = $key;
+        }
+
+        return $attr_list;
     }
 
 
