@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\AttributeSet;
 use Illuminate\Http\Request;
-use App\Attribute;
 
-class AttributesController extends Controller
+class AttributeSetsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,8 @@ class AttributesController extends Controller
      */
     public function index()
     {
-        return Attribute::paginate(10);
+        return AttributeSet::with('attributes')->paginate(10);
+
     }
 
     /**
@@ -33,9 +34,11 @@ class AttributesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, AttributeSet $test)
     {
-        Attribute::create($request->all());
+        $attr_set = $test->create($request->all());
+
+        $attr_set->attributes()->sync($request->attribute_id);
     }
 
     /**
@@ -69,7 +72,7 @@ class AttributesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Attribute::find($id)->update($request->all());
+        //
     }
 
     /**
@@ -80,6 +83,8 @@ class AttributesController extends Controller
      */
     public function destroy($id)
     {
-        Attribute::find($id)->delete();
+        AttributeSet::find($id)->delete();
     }
+
+
 }
