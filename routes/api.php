@@ -17,9 +17,13 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 Route::post('/categories/{category}/duplicate', 'CategoriesController@duplicate');
+Route::get('categories/{id}', 'CategoriesController@getCategory');
 Route::resource('categories', 'CategoriesController');
+Route::get('vat-rates/{id}', 'VatRatesController@getRate');
 Route::resource('vat-rates', 'VatRatesController');
+Route::get('attributes/{id}', 'AttributesController@getAttribute');
 Route::resource('attributes', 'AttributesController');
+Route::get('attribute-sets/{id}', 'AttributeSetsController@getAttributeSet');
 Route::get('attribute-sets/{item}/list', 'AttributeSetsController@attributesList');
 Route::resource('attribute-sets', 'AttributeSetsController');
 

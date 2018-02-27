@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoriesController extends Controller
 {
@@ -36,6 +37,18 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         Category::create($request->all());
+
+        $last_insert_id = DB::table('information_schema.tables')
+            ->where('table_name', 'categories')
+            ->whereRaw('table_schema = DATABASE()')
+            ->select('AUTO_INCREMENT')->first()->AUTO_INCREMENT-1;
+
+        $subcategory_id = $request->selectedCategory;
+
+       if(isset($last_insert_id))
+       {
+           Category::where('id', $last_insert_id)->update(['parent_id' => $subcategory_id]);
+       }
     }
 
     /**
@@ -92,5 +105,12 @@ class CategoriesController extends Controller
         $duplicate_category = $current_category->replicate();
         $duplicate_category->name = $duplicate_category->name.'_copy';
         $duplicate_category->save();
+    }
+
+    public function getCategory($id){
+
+        $category = Category::where('id', $id)->get();
+
+        return $category;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AttributeSet;
+use App\Attribute;
 use Illuminate\Http\Request;
 
 class AttributeSetsController extends Controller
@@ -36,9 +37,10 @@ class AttributeSetsController extends Controller
      */
     public function store(Request $request, AttributeSet $test)
     {
+
         $attr_set = $test->create($request->all());
 
-        $attr_set->attributes()->sync($request->attribute_id);
+        $attr_set->attributes()->sync($request->selectedAttributes);
     }
 
     /**
@@ -75,7 +77,7 @@ class AttributeSetsController extends Controller
         $attr_set = AttributeSet::find($id);
         $attr_set->update($request->all());
 
-        $attr_set->attributes()->sync($request->attribute_id);
+        $attr_set->attributes()->sync($request->selectedAttributes);
 
     }
 
@@ -103,5 +105,11 @@ class AttributeSetsController extends Controller
         return $attr_list;
     }
 
+    public function getAttributeSet($id){
+
+        $attr_set = AttributeSet::with('attributes')->where('id', $id)->get();
+
+        return $attr_set;
+    }
 
 }
