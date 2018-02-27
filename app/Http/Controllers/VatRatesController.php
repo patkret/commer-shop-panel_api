@@ -82,4 +82,13 @@ class VatRatesController extends Controller
     {
         VatRate::find($id)->delete();
     }
+
+
+    public function getRate($id){
+
+        $rate = VatRate::where('id',$id)->get();
+
+        return $rate;
+
+    }
 }

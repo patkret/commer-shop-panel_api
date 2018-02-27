@@ -16,6 +16,7 @@ class CreateAttributeSetsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('name')->nullable();
+            $table->integer('default_category')->nullable();
             });
     }
 

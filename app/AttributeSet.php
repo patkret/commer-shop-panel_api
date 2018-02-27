@@ -25,7 +25,7 @@ class AttributeSet extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'default_category'];
 
     public function attributes(){
 

@@ -18,8 +18,8 @@ class CreateAttributesTable extends Migration
             $table->softDeletes();
             $table->string('name')->nullable();
             $table->boolean('visibility')->nullable();
-            $table->string('type')->nullable();
-            $table->string('default_value')->nullable();
+            $table->integer('type')->nullable();
+            $table->text('field_values')->nullable();
             });
     }
 

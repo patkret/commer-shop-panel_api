@@ -27,7 +27,7 @@ class Attribute extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'visibility', 'type', 'default_value'];
+    protected $fillable = ['name', 'visibility', 'type', 'default_value', 'field_values'];
 
 
 }

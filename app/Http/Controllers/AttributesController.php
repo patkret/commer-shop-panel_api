@@ -69,7 +69,9 @@ class AttributesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        print_r($request->all());
         Attribute::find($id)->update($request->all());
+        return ['status' => 1];
     }
 
     /**
@@ -81,5 +83,12 @@ class AttributesController extends Controller
     public function destroy($id)
     {
         Attribute::find($id)->delete();
+    }
+
+    public function getAttribute($id){
+
+        $attribute = Attribute::where('id', $id)->get();
+
+        return $attribute;
     }
 }
