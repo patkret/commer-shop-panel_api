@@ -47,7 +47,7 @@ class CategoriesController extends Controller
 
        if(isset($last_insert_id))
        {
-           Category::where('id', $last_insert_id)->update(['parent_id' => $subcategory_id]);
+           Category::where('id', $subcategory_id)->update(['parent_id' => $last_insert_id]);
        }
     }
 
