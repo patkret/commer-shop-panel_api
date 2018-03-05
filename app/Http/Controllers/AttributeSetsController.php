@@ -41,6 +41,7 @@ class AttributeSetsController extends Controller
         $attr_set = $test->create($request->all());
 
         $attr_set->attributes()->sync($request->selectedAttributes);
+
     }
 
     /**
@@ -92,22 +93,25 @@ class AttributeSetsController extends Controller
         AttributeSet::find($id)->delete();
     }
 
-    public function attributesList($id){
-
-        $list = AttributeSet::find($id)->attributes->pluck('name', 'id')->toArray();
-        $attr_list = [];
-
-        foreach($list as $key => $value){
-
-            $attr_list[] = $key;
-        }
-
-        return $attr_list;
-    }
+//    public function attributesList($id){
+//
+//        $list = AttributeSet::find($id)->attributes->pluck('name', 'id')->toArray();
+//
+//        $attr_ids = [];
+//
+//        foreach($list as $key => $value){
+//
+//            $attr_ids[] = $key;
+//        }
+//
+//        $set_has_attributes= Attribute::whereIn('id', $attr_ids)->get()->toArray();
+//
+//        return $set_has_attributes;
+//    }
 
     public function getAttributeSet($id){
 
-        $attr_set = AttributeSet::with('attributes')->where('id', $id)->get();
+        $attr_set = AttributeSet::with(['attributes', 'category'])->where('id', $id)->first();
 
         return $attr_set;
     }

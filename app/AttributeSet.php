@@ -32,4 +32,8 @@ class AttributeSet extends Model
        return $this->belongsToMany(Attribute::class, 'attribute_set_has_attribute');
     }
 
+    public function category(){
+        return $this->belongsTo(Category::class, 'default_category');
+    }
+
 }

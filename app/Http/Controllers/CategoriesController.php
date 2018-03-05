@@ -38,17 +38,6 @@ class CategoriesController extends Controller
     {
         Category::create($request->all());
 
-        $last_insert_id = DB::table('information_schema.tables')
-            ->where('table_name', 'categories')
-            ->whereRaw('table_schema = DATABASE()')
-            ->select('AUTO_INCREMENT')->first()->AUTO_INCREMENT-1;
-
-        $subcategory_id = $request->selectedCategory;
-
-       if(isset($last_insert_id))
-       {
-           Category::where('id', $subcategory_id)->update(['parent_id' => $last_insert_id]);
-       }
     }
 
     /**
@@ -81,8 +70,9 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $category = Category::find($id);
 
-        Category::find($id)->update($request->all());
+        $category->update($request->all());
 
     }
 
@@ -113,4 +103,16 @@ class CategoriesController extends Controller
 
         return $category;
     }
+
+    public function getParent($id){
+
+        $parent_id = Category::where('id', $id)->value('parent_id');
+
+        $parent = Category::where('id', $parent_id)->get();
+
+        return $parent;
+    }
+
+
+
 }

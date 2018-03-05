@@ -69,7 +69,7 @@ class AttributesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        print_r($request->all());
+//        print_r($request->all());
         Attribute::find($id)->update($request->all());
         return ['status' => 1];
     }
