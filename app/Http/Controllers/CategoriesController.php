@@ -15,7 +15,19 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        return Category::paginate(10);
+        $categories =  Category::all();
+
+        $categoriesTree = [];
+
+        foreach($categories as $category) {
+            if($category->parent_id) {
+                $categoriesTree[$category->parent_id]['children'][] = $category->toArray();
+            } else {
+                $categoriesTree[$category->id] = $category->toArray();
+            }
+        }
+
+       return $categoriesTree;
     }
 
     /**
