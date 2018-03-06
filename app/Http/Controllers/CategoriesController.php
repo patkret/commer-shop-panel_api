@@ -111,7 +111,11 @@ class CategoriesController extends Controller
 
     public function getCategory($id){
 
-        $category = Category::where('id', $id)->get();
+        $category = Category::where('id', $id)->first();
+
+        $children = Category::where('parent_id', $id)->get();
+
+        $category['children'] = $children;
 
         return $category;
     }
@@ -120,7 +124,7 @@ class CategoriesController extends Controller
 
         $parent_id = Category::where('id', $id)->value('parent_id');
 
-        $parent = Category::where('id', $parent_id)->get();
+        $parent = Category::where('id', $parent_id)->first();
 
         return $parent;
     }

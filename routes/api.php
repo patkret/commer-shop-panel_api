@@ -30,6 +30,8 @@ Route::group([
 	Route::get( 'attribute-sets/{id}', 'AttributeSetsController@getAttributeSet' );
 	Route::get( 'attribute-sets/{item}/list', 'AttributeSetsController@attributesList' );
 	Route::resource( 'attribute-sets', 'AttributeSetsController' );
+	Route::get('vendors/{id}', 'VendorsController@getVendor');
+	Route::resource( 'vendors', 'VendorsController' );
 
 });
 
