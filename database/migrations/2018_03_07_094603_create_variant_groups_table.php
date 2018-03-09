@@ -16,6 +16,7 @@ class CreateVariantGroupsTable extends Migration
         Schema::create('variant_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->text('variants');
             $table->timestamps();
         });
     }

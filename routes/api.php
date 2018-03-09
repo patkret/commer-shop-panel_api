@@ -32,7 +32,7 @@ Route::group([
 	Route::resource( 'attribute-sets', 'AttributeSetsController' );
 	Route::get('vendors/{id}', 'VendorsController@getVendor');
 	Route::resource( 'vendors', 'VendorsController' );
-	Route::resource( 'variants', 'VariantsController' );
+	Route::get('variant-groups/{id}', 'VariantGroupsController@getVariantGroup');
 	Route::resource( 'variant-groups', 'VariantGroupsController' );
 	Route::get('/types', 'VariantGroupsController@variantTypes');
 	Route::get('/price-options', 'VariantGroupsController@priceOptions');

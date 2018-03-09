@@ -38,6 +38,7 @@ class AttributeSetsController extends Controller
     public function store(Request $request, AttributeSet $test)
     {
 
+
         $attr_set = $test->create($request->all());
 
         $attr_set->attributes()->sync($request->selectedAttributes);

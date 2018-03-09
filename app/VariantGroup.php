@@ -6,11 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class VariantGroup extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'variants'];
 
     protected $table = 'variant_groups';
 
-//    public function variants(){
-//
-//    }
 }

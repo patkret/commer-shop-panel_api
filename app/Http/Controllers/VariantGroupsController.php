@@ -73,7 +73,10 @@ class VariantGroupsController extends Controller
      */
     public function update(Request $request, VariantGroup $variantGroup)
     {
-        //
+
+        VariantGroup::find($variantGroup)->first()->update($request->all());
+
+        return ['status' => 1];
     }
 
     /**
@@ -113,5 +116,12 @@ class VariantGroupsController extends Controller
         ];
 
         return $priceOptions;
+    }
+
+    public function getVariantGroup($id){
+
+       $variantGroup =  VariantGroup::where('id', $id)->first();
+
+       return $variantGroup;
     }
 }
