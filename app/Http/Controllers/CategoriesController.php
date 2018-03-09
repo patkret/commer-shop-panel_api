@@ -15,19 +15,60 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories =  Category::all();
+        $categories =  Category::where('parent_id', 0)
+					        ->orderBy('order_no', 'ASC')
+					        ->get();
 
         $categoriesTree = [];
-
+		$i = 0;
         foreach($categories as $category) {
-            if($category->parent_id) {
-                $categoriesTree[$category->parent_id]['children'][] = $category->toArray();
-            } else {
-                $categoriesTree[$category->id] = $category->toArray();
-            }
+			$categoriesTree[] = $category->toArray();
+
+			$children = Category::where('parent_id', $category->id)
+		                    ->orderBy('order_no', 'ASC')
+		                    ->get();
+			foreach($children as $child) {
+				$categoriesTree[$i]['children'][] = $child->toArray();
+			}
+			$i++;
+
+
+//            if($category->parent_id) {
+//                $categoriesTree[$category->parent_id]['children'][] = $category->toArray();
+//            } else {
+//                $categoriesTree[$category->id] = $category->toArray();
+//	            $categoriesTree[$category->id]['children'] = [];
+//            }
         }
 
+//        print_r($categoriesTree);
        return $categoriesTree;
+    }
+
+    public function saveOrders(Request $request)
+    {
+    	$orderMain = 1;
+    	foreach($request->get('categories') as $category) {
+		    $categoryObject = Category::find($category['id']);
+		    $categoryObject->update([
+		    	'order_no' => $orderMain,
+			    'parent_id' => 0
+		    ]);
+		    if(isset($category['children'])) {
+			    foreach ( $category['children'] as $child ) {
+				    $categoryChildObject = Category::find( $child['id'] );
+				    $categoryChildObject->update( [
+					    'order_no'  => $orderMain,
+					    'parent_id' => $categoryObject->id
+				    ] );
+				    $orderMain ++;
+			    }
+		    }
+
+		    $orderMain++;
+	    }
+
+		return ['status' => 'ok'];
     }
 
     /**
@@ -48,8 +89,18 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        Category::create($request->all());
+    	$all = $request->all();
+    	if(intval($all['parent_id']) > 0) {
+    	    $lastCategory = Category::orderBy('order_no', 'DESC')
+		                        ->first();
+		    $all['order_no'] = ++$lastCategory->order_no;
+	    } else {
+		    $all['order_no'] = 0;
+		    $all['parent_id'] = 0;
+	    }
+        Category::create($all);
 
+	    return ['status' => 'ok'];
     }
 
     /**
