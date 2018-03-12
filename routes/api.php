@@ -21,14 +21,20 @@ Route::group([
 ], function () {
 	Route::post( '/categories/{category}/duplicate', 'CategoriesController@duplicate' );
 	Route::get( 'categories/{id}', 'CategoriesController@getCategory' );
+	Route::get( 'categories/parent/{id}', 'CategoriesController@getParent' );
+	Route::patch( 'categories/save-orders', 'CategoriesController@saveOrders' );
 	Route::resource( 'categories', 'CategoriesController' );
 	Route::get( 'vat-rates/{id}', 'VatRatesController@getRate' );
 	Route::resource( 'vat-rates', 'VatRatesController' );
-	Route::get( 'attributes/{id}', 'AttributesController@getAttribute' );
-	Route::resource( 'attributes', 'AttributesController' );
 	Route::get( 'attribute-sets/{id}', 'AttributeSetsController@getAttributeSet' );
-	Route::get( 'attribute-sets/{item}/list', 'AttributeSetsController@attributesList' );
 	Route::resource( 'attribute-sets', 'AttributeSetsController' );
+	Route::get('vendors/{id}', 'VendorsController@getVendor');
+	Route::resource( 'vendors', 'VendorsController' );
+	Route::get('variant-groups/{id}', 'VariantGroupsController@getVariantGroup');
+	Route::resource( 'variant-groups', 'VariantGroupsController' );
+	Route::get('/types', 'VariantGroupsController@variantTypes');
+	Route::get('/price-options', 'VariantGroupsController@priceOptions');
+	Route::get('/cat', 'CategoriesController@test');
 
 });
 

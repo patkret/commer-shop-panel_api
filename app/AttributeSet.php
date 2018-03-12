@@ -25,11 +25,12 @@ class AttributeSet extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'default_category'];
+    protected $fillable = ['name', 'attributes', 'visibility'];
 
-    public function attributes(){
 
-       return $this->belongsToMany(Attribute::class, 'attribute_set_has_attribute');
+
+    public function categories() {
+        return $this->belongsToMany(Category::class, 'attribute_set_has_category');
     }
 
 }

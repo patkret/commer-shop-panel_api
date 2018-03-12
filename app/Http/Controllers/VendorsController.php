@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Attribute;
+use App\Vendor;
 
-class AttributesController extends Controller
+class VendorsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,9 @@ class AttributesController extends Controller
      */
     public function index()
     {
-        return Attribute::paginate(10);
+        $vendors = Vendor::all();
+
+        return $vendors;
     }
 
     /**
@@ -35,7 +37,7 @@ class AttributesController extends Controller
      */
     public function store(Request $request)
     {
-        Attribute::create($request->all());
+        Vendor::create($request->all());
     }
 
     /**
@@ -69,8 +71,8 @@ class AttributesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        print_r($request->all());
-        Attribute::find($id)->update($request->all());
+        Vendor::find($id)->update($request->all());
+
         return ['status' => 1];
     }
 
@@ -82,13 +84,15 @@ class AttributesController extends Controller
      */
     public function destroy($id)
     {
-        Attribute::find($id)->delete();
+        Vendor::find($id)->delete();
+
+        return ['status' => 1];
     }
 
-    public function getAttribute($id){
+    public function getVendor($id){
 
-        $attribute = Attribute::where('id', $id)->get();
+        $vendor = Vendor::where('id', $id)->first();
 
-        return $attribute;
+        return $vendor;
     }
 }

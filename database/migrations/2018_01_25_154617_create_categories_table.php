@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->softDeletes();
             $table->string('name')->nullable();
             $table->string('photo')->nullable();
+            $table->integer('order_no')->nullable();
             $table->boolean('visibility')->nullable();
             $table->integer('parent_id')->nullable()->unsigned();
             });
