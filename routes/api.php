@@ -22,6 +22,7 @@ Route::group([
 	Route::post( '/categories/{category}/duplicate', 'CategoriesController@duplicate' );
 	Route::get( 'categories/{id}', 'CategoriesController@getCategory' );
 	Route::get( 'categories/parent/{id}', 'CategoriesController@getParent' );
+	Route::patch( 'categories/save-orders', 'CategoriesController@saveOrders' );
 	Route::resource( 'categories', 'CategoriesController' );
 	Route::get( 'vat-rates/{id}', 'VatRatesController@getRate' );
 	Route::resource( 'vat-rates', 'VatRatesController' );
