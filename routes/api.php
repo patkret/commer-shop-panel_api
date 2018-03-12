@@ -25,10 +25,7 @@ Route::group([
 	Route::resource( 'categories', 'CategoriesController' );
 	Route::get( 'vat-rates/{id}', 'VatRatesController@getRate' );
 	Route::resource( 'vat-rates', 'VatRatesController' );
-	Route::get( 'attributes/{id}', 'AttributesController@getAttribute' );
-	Route::resource( 'attributes', 'AttributesController' );
 	Route::get( 'attribute-sets/{id}', 'AttributeSetsController@getAttributeSet' );
-	Route::get( 'attribute-sets/{item}/list', 'AttributeSetsController@attributesList' );
 	Route::resource( 'attribute-sets', 'AttributeSetsController' );
 	Route::get('vendors/{id}', 'VendorsController@getVendor');
 	Route::resource( 'vendors', 'VendorsController' );
@@ -36,6 +33,7 @@ Route::group([
 	Route::resource( 'variant-groups', 'VariantGroupsController' );
 	Route::get('/types', 'VariantGroupsController@variantTypes');
 	Route::get('/price-options', 'VariantGroupsController@priceOptions');
+	Route::get('/cat', 'CategoriesController@test');
 
 });
 

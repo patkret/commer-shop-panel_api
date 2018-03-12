@@ -14,9 +14,10 @@ class CreateAttributeSetsTable extends Migration
     {
         Schema::create('attribute_sets', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
             $table->string('name')->nullable();
-            $table->integer('default_category')->nullable();
+            $table->text('attributes')->nullable();
+            $table->boolean('visibility');
+            $table->timestamps();
             });
     }
 

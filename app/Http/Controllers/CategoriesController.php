@@ -129,6 +129,11 @@ class CategoriesController extends Controller
         return $parent;
     }
 
+    public function test(){
+
+        return Category::all();
+    }
+
 
 
 }
