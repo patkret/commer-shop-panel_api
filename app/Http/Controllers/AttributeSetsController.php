@@ -17,6 +17,7 @@ class AttributeSetsController extends Controller
         $attributeSet = AttributeSet::all();
 
         return $attributeSet;
+        return ['status' => 1];
 
     }
 

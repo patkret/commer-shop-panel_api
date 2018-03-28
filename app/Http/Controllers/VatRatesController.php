@@ -14,7 +14,7 @@ class VatRatesController extends Controller
      */
     public function index()
     {
-        return VatRate::paginate(10);
+        return VatRate::all();
     }
 
     /**
