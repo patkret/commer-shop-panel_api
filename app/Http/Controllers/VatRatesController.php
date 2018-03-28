@@ -86,7 +86,7 @@ class VatRatesController extends Controller
 
     public function getRate($id){
 
-        $rate = VatRate::where('id',$id)->get();
+        $rate = VatRate::where('id',$id)->first();
 
         return $rate;
 

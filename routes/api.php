@@ -34,7 +34,11 @@ Route::group([
 	Route::resource( 'variant-groups', 'VariantGroupsController' );
 	Route::get('/types', 'VariantGroupsController@variantTypes');
 	Route::get('/price-options', 'VariantGroupsController@priceOptions');
-	Route::get('/cat', 'CategoriesController@test');
+	Route::get('/main-categories', 'ProductsController@getMainCategories');
+    Route::get('products/{id}', 'ProductsController@getProduct');
+    Route::resource('products', 'ProductsController');
+
+	Route::get('all-categories', 'CategoriesController@getAllCategories');
 
 });
 
