@@ -12,7 +12,11 @@ class CategoriesSeeder extends Seeder
 			'photo' => '',
 			'visibility' => 1,
 			'parent_id' => $parent,
-			'order_no' => $mainOrder
+			'order_no' => $mainOrder,
+            'page_title' => '',
+            'meta_description' => '',
+            'meta_keywords' => '',
+            'url' => '',
 		]);
 	}
 
