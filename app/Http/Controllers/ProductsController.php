@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Product;
 use Illuminate\Http\Request;
-use App\Vendor;
+use Symfony\Component\HttpFoundation\Response;
 
-class VendorsController extends Controller
+class ProductsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +16,9 @@ class VendorsController extends Controller
      */
     public function index()
     {
-        $vendors = Vendor::all();
+        $products = Product::all();
 
-        return $vendors;
+        return $products;
     }
 
     /**
@@ -37,16 +39,18 @@ class VendorsController extends Controller
      */
     public function store(Request $request)
     {
-        Vendor::create($request->vendor);
+        $product = Product::create($request->product);
+
+        return response()->json($product);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
         //
     }
@@ -54,10 +58,10 @@ class VendorsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
         //
     }
@@ -66,33 +70,35 @@ class VendorsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        Vendor::find($id)->update($request->vendor);
-
-        return ['status' => 1];
+        $product->update($request->product);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        Vendor::find($id)->delete();
-
+        $product->delete();
         return ['status' => 1];
     }
 
-    public function getVendor($id){
+    public function getMainCategories()
+    {
+        $mainCategories = Category::where('parent_id', '=', '0')->get();
+        return $mainCategories;
+    }
 
-        $vendor = Vendor::where('id', $id)->first();
+    public function getProduct($id){
+       $product =  Product::where('id', $id)->first();
 
-        return $vendor;
+       return $product;
     }
 }

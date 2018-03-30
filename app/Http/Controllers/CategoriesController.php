@@ -180,7 +180,7 @@ class CategoriesController extends Controller
         return $parent;
     }
 
-    public function test(){
+    public function getAllCategories(){
 
         return Category::all();
     }

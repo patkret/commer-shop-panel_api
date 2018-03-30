@@ -21,6 +21,10 @@ class CreateCategoriesTable extends Migration
             $table->integer('order_no')->nullable();
             $table->boolean('visibility')->nullable();
             $table->integer('parent_id')->nullable()->unsigned();
+            $table->string('page_title')->nullable();
+            $table->string('meta_description')->nullable();
+            $table->string('meta_keywords')->nullable();
+            $table->string('url')->nullable();
             });
     }
 
