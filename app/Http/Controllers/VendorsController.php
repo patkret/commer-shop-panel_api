@@ -37,7 +37,7 @@ class VendorsController extends Controller
      */
     public function store(Request $request)
     {
-        Vendor::create($request->all());
+        Vendor::create($request->vendor);
     }
 
     /**
@@ -71,7 +71,7 @@ class VendorsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Vendor::find($id)->update($request->all());
+        Vendor::find($id)->update($request->vendor);
 
         return ['status' => 1];
     }
