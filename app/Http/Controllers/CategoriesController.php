@@ -147,7 +147,7 @@ class CategoriesController extends Controller
     {
         $category = Category::find($id);
 
-        $category->update($request->all());
+        $category->update($request->editedCategory);
 
     }
 

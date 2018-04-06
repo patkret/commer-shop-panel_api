@@ -69,7 +69,7 @@ class VatRatesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        VatRate::find($id)->update($request->all());
+        VatRate::find($id)->update($request->vat_rate);
     }
 
     /**
