@@ -36,7 +36,9 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        User::create($request->all());
+
+        return ['status' => 1];
     }
 
     /**
@@ -45,9 +47,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+
     }
 
     /**
@@ -70,7 +72,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        User::find($id)->update($request->editedUser);
     }
 
     /**
@@ -81,6 +83,7 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::find($id)->delete();
     }
+
 }

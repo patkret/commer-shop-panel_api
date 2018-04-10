@@ -40,8 +40,6 @@ Route::group([
     Route::resource('products', 'ProductsController');
     Route::resource('users', 'UsersController');
 
-
-
 });
 
 Route::post('login', 'AuthController@login');
