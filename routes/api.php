@@ -39,7 +39,8 @@ Route::group([
     Route::get('products/{id}', 'ProductsController@getProduct');
     Route::resource('products', 'ProductsController');
     Route::resource('users', 'UsersController');
-
+    Route::get('modules', 'UsersController@getShopModules');
+    Route::get('access-rights', 'UsersController@getAccessRights');
 
 
 });
