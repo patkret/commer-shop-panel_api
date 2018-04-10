@@ -20,6 +20,7 @@ Route::group([
 	'middleware' => 'jwt'
 ], function () {
 	Route::post( '/categories/{category}/duplicate', 'CategoriesController@duplicate' );
+    Route::get('all-categories', 'CategoriesController@getAllCategories');
 	Route::get( 'categories/{id}', 'CategoriesController@getCategory' );
 	Route::get( 'categories/parent/{id}', 'CategoriesController@getParent' );
 	Route::patch( 'categories/save-orders', 'CategoriesController@saveOrders' );
@@ -37,8 +38,7 @@ Route::group([
 	Route::get('/main-categories', 'ProductsController@getMainCategories');
     Route::get('products/{id}', 'ProductsController@getProduct');
     Route::resource('products', 'ProductsController');
-
-	Route::get('all-categories', 'CategoriesController@getAllCategories');
+    Route::resource('users', 'UsersController');
 
 });
 

@@ -8,6 +8,25 @@ use Illuminate\Support\Facades\DB;
 
 class CategoriesController extends Controller
 {
+    private function buildTree($elements, $parentId = 0) {
+        $branch = [];
+
+        foreach ($elements as $element) {
+            if ($element['parent_id'] == $parentId) {
+                $children = $this->buildTree($elements, $element['id']);
+//                dump($element['id']);
+//                dump($children);
+                if ($children) {
+
+                    $element['children'] = $children;
+                }
+                $branch[] = $element;
+                unset($elements[$element['id']]);
+            }
+        }
+        return $branch;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,34 +34,27 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories =  Category::where('parent_id', 0)
-					        ->orderBy('order_no', 'ASC')
+        $categories =  Category::orderBy('order_no', 'ASC')
 					        ->get();
 
-        $categoriesTree = [];
-		$i = 0;
-        foreach($categories as $category) {
-			$categoriesTree[] = $category->toArray();
+        $categoriesTree = $this->buildTree($categories->toArray());
 
-			$children = Category::where('parent_id', $category->id)
-		                    ->orderBy('order_no', 'ASC')
-		                    ->get();
-			foreach($children as $child) {
-				$categoriesTree[$i]['children'][] = $child->toArray();
-			}
-			$i++;
+        return $categoriesTree;
 
-
-//            if($category->parent_id) {
-//                $categoriesTree[$category->parent_id]['children'][] = $category->toArray();
-//            } else {
-//                $categoriesTree[$category->id] = $category->toArray();
-//	            $categoriesTree[$category->id]['children'] = [];
-//            }
-        }
-
-//        print_r($categoriesTree);
-       return $categoriesTree;
+//        $categoriesTree = [];
+//		$i = 0;
+//        foreach($categories as $category) {
+//			$categoriesTree[] = $category->toArray();
+//
+//			$children = Category::where('parent_id', $category->id)
+//		                    ->orderBy('order_no', 'ASC')
+//		                    ->get();
+//			foreach($children as $child) {
+//				$categoriesTree[$i]['children'][] = $child->toArray();
+//			}
+//			$i++;
+//
+//       return $categoriesTree;
     }
 
     public function saveOrders(Request $request)
@@ -135,7 +147,7 @@ class CategoriesController extends Controller
     {
         $category = Category::find($id);
 
-        $category->update($request->all());
+        $category->update($request->editedCategory);
 
     }
 

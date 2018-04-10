@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\VatRate;
 use Illuminate\Http\Request;
-
-class VatRatesController extends Controller
+use App\User;
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +13,9 @@ class VatRatesController extends Controller
      */
     public function index()
     {
-        return VatRate::all();
+        $users = User::all();
+
+        return $users;
     }
 
     /**
@@ -35,7 +36,9 @@ class VatRatesController extends Controller
      */
     public function store(Request $request)
     {
-        VatRate::create($request->all());
+        User::create($request->all());
+
+        return ['status' => 1];
     }
 
     /**
@@ -44,9 +47,9 @@ class VatRatesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+
     }
 
     /**
@@ -69,7 +72,7 @@ class VatRatesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        VatRate::find($id)->update($request->vat_rate);
+        User::find($id)->update($request->editedUser);
     }
 
     /**
@@ -80,15 +83,7 @@ class VatRatesController extends Controller
      */
     public function destroy($id)
     {
-        VatRate::find($id)->delete();
+        User::find($id)->delete();
     }
 
-
-    public function getRate($id){
-
-        $rate = VatRate::where('id',$id)->first();
-
-        return $rate;
-
-    }
 }
