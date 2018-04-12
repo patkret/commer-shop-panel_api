@@ -39,6 +39,7 @@ Route::group([
     Route::get('products/{id}', 'ProductsController@getProduct');
     Route::resource('products', 'ProductsController');
     Route::resource('users', 'UsersController');
+    Route::post('/users/{user}/duplicate', 'UsersController@duplicate');
 
 });
 

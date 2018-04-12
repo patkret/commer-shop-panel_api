@@ -15,7 +15,7 @@ class UsersController extends Controller
     {
         $users = User::all();
 
-        return $users;
+        return $users->makeVisible('password')->toArray();
     }
 
     /**
@@ -84,6 +84,15 @@ class UsersController extends Controller
     public function destroy($id)
     {
         User::find($id)->delete();
+    }
+
+    public function duplicate($id){
+        $current_user = User::find($id);
+//        $category_subcategories = Category::where('parent_id', $id)->get();
+
+        $duplicate_user = $current_user->replicate();
+        $duplicate_user->first_name = $duplicate_user->first_name.'_copy';
+        $duplicate_user->save();
     }
 
 }
