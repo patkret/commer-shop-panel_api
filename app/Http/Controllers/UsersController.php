@@ -48,9 +48,9 @@ class UsersController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+
     }
 
     /**
@@ -74,7 +74,7 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
 
-        User::find($id)->update($request->user);
+        User::find($id)->update($request->editedUser);
 
     }
 
@@ -87,67 +87,6 @@ class UsersController extends Controller
     public function destroy($id)
     {
         User::find($id)->delete();
-    }
 
-    public function getShopModules()
-    {
-
-        $modules = [
-            [
-                'id' => 0,
-                'name' => 'Sprzedaż'
-            ],
-            [
-                'id' => 1,
-                'name' => 'Asortyment'
-            ],
-            [
-                'id' => 2,
-                'name' => 'Klienci'
-            ],
-            [
-                'id' => 3,
-                'name' => 'Marketing'
-            ],
-            [
-                'id' => 4,
-                'name' => 'Raporty'
-            ],
-            [
-                'id' => 5,
-                'name' => 'Ustawienia'
-            ],
-            [
-                'id' => 6,
-                'name' => 'Integracje'
-            ],
-        ];
-
-        return $modules;
-    }
-
-    public function getAccessRights()
-    {
-
-        $modules = [
-            [
-                'id' => 0,
-                'name' => 'odczyt'
-            ],
-            [
-                'id' => 1,
-                'name' => 'dodawanie'
-            ],
-            [
-                'id' => 2,
-                'name' => 'edycja'
-            ],
-            [
-                'id' => 3,
-                'name' => 'usuwanie'
-            ],
-        ];
-
-        return $modules;
     }
 }

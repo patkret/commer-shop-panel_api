@@ -13,7 +13,7 @@ class CreateUserModuleAccessesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_modules_accesses', function (Blueprint $table) {
+        Schema::create('user_module_accesses', function (Blueprint $table) {
             $table->integer('user_id')->unsigned();
             $table->integer('module_id');
             $table->integer('access_rights');
@@ -33,7 +33,7 @@ class CreateUserModuleAccessesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_modules_accesses');
+        Schema::dropIfExists('user_module_accesses');
     }
 
 }

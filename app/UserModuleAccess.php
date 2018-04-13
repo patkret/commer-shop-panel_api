@@ -10,4 +10,6 @@ class UserModuleAccess extends Model
         'user_id', 'module_id', 'access_rights'
     ];
 
+    protected $table = 'user_module_accesses';
+
 }

@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 Route::group([
+//	'middleware' => 'acl'
 	'middleware' => 'jwt'
 ], function () {
 	Route::post( '/categories/{category}/duplicate', 'CategoriesController@duplicate' );
@@ -39,8 +40,10 @@ Route::group([
     Route::get('products/{id}', 'ProductsController@getProduct');
     Route::resource('products', 'ProductsController');
     Route::resource('users', 'UsersController');
-    Route::get('modules', 'UsersController@getShopModules');
-    Route::get('access-rights', 'UsersController@getAccessRights');
+
+    Route::get('modules', 'UserModuleAccessesController@getShopModules');
+    Route::get('access-rights', 'UserModuleAccessesController@getAccessRights');
+    Route::resource('user-access', 'UserModuleAccessesController');
 
 
 });

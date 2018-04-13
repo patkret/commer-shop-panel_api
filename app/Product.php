@@ -9,7 +9,28 @@ class Product extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'vendor', 'vat_rate', 'category', 'price', 'weight', 'symbol', 'visibility','variant_set', 'description', 'product_variant_set_values'];
+    protected $fillable =
+        [
+            'name',
+            'symbol',
+            'barcode',
+            'pkwiuCode',
+            'weight',
+            'height',
+            'width',
+            'depth',
+            'vendor',
+            'visibility',
+            'vat_rate',
+            'shortDescription',
+            'longDescription',
+            'price',
+            'intoStockPrice',
+            'stock',
+            'stockAvail',
+            'attributeSets',
+            'variantSets'];
+
 
     protected $table = 'products';
 }

@@ -39,9 +39,10 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        $product = Product::create($request->product);
 
-        return response()->json($product);
+        Product::create($request->product);
+
+        return ['status' => 1];
     }
 
     /**
