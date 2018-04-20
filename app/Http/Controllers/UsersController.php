@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Validator;
+use app\Exceptions\Handler;
 
 class UsersController extends Controller
 {
@@ -91,13 +93,35 @@ class UsersController extends Controller
 
     }
 
-    public function duplicate($id)
+    public function duplicate(Request $request)
     {
-        $current_user = User::find($id);
-//        $category_subcategories = Category::where('parent_id', $id)->get();
+       User::create($request->duplicatingUser);
 
-        $duplicate_user = $current_user->replicate();
-        $duplicate_user->first_name = $duplicate_user->first_name . '_copy';
-        $duplicate_user->save();
+    }
+
+    public function changePassword(Request $request, $id){
+
+//        $oldPassword = bcrypt($request->user['oldPassword']);
+        $oldPassword = $request->user['oldPassword'];
+
+        $user = User::where('id', $id)->first();
+        if($user->password == $oldPassword){
+
+            $user->update(['password' => $request->user['newPassword']]);
+        }
+    }
+
+    public function getUser($id){
+
+        return User::where('id', $id)->first();
+    }
+
+    public function test(Request $request){
+//
+        $oldPassword = bcrypt($request->user['oldPassword']);
+//        dd($oldPassword);
+        $user = User::where('id', $request->id)->first();
+        dd($user->password, $oldPassword);
+        return $user;
     }
 }

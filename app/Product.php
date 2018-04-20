@@ -29,7 +29,8 @@ class Product extends Model
             'stock',
             'stockAvail',
             'attributeSets',
-            'variantSets'];
+            'variantSets',
+            'selectedVariantSet'];
 
 
     protected $table = 'products';
