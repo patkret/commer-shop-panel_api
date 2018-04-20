@@ -17,6 +17,12 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('symbol');
+            $table->string('barcode');
+            $table->string('pkwiuCode');
+            $table->double('weight')->nullable();
+            $table->double('height')->nullable();
+            $table->double('width')->nullable();
+            $table->double('depth')->nullable();
             $table->integer('vendor')->unsigned()->nullable();
             $table->foreign('vendor')
                 ->references('id')
@@ -28,20 +34,15 @@ class CreateProductsTable extends Migration
                 ->references('id')
                 ->on('vat_rates')
                 ->onDelete('set null');
-            $table->string('description')->nullable();
+            $table->string('shortDescription')->nullable();
+            $table->text('longDescription')->nullable();
             $table->double('price');
-            $table->double('weight');
-            $table->integer('category')->unsigned()->nullable();
-            $table->foreign('category')
-                ->references('id')
-                ->on('categories')
-                ->onDelete('set null');
-            $table->integer('variant_set')->unsigned()->nullable();
-            $table->foreign('variant_set')
-                ->references('id')
-                ->on('variant_groups')
-                ->onDelete('set null');
-            $table->text('product_variant_set_values')->nullable();
+            $table->double('intoStockPrice');
+            $table->integer('stock');
+            $table->integer('stockAvail');
+            $table->text('attributeSets')->nullable();
+            $table->text('variantSets')->nullable();
+            $table->integer('selectedVariantSet')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
