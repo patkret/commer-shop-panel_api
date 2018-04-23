@@ -38,6 +38,7 @@ Route::group([
 	Route::get('/price-options', 'VariantGroupsController@priceOptions');
 	Route::get('/main-categories', 'ProductsController@getMainCategories');
     Route::get('products/{id}', 'ProductsController@getProduct');
+    Route::delete('products/delete-all/{products}', 'ProductsController@deleteAll');
     Route::resource('products', 'ProductsController');
     Route::resource('users', 'UsersController');
     Route::post('/users/{user}/duplicate', 'UsersController@duplicate');

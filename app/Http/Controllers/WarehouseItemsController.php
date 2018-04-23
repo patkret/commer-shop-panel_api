@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpFoundation\Response;
 
-class ProductsController extends Controller
+class WarehouseItemsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +13,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-
-        return $products;
+        //
     }
 
     /**
@@ -40,19 +34,16 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-
-        Product::create($request->product);
-
-        return ['status' => 1];
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
         //
     }
@@ -60,10 +51,10 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
         //
     }
@@ -72,39 +63,22 @@ class ProductsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        $product->update($request->product);
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        $product->delete();
-        return ['status' => 1];
-    }
-
-    public function getMainCategories()
-    {
-        $mainCategories = Category::where('parent_id', '=', '0')->get();
-        return $mainCategories;
-    }
-
-    public function getProduct($id){
-       $product =  Product::where('id', $id)->first();
-
-       return $product;
-    }
-
-    public function deleteAll($products){
-        Product::destroy($products);
+        //
     }
 }
