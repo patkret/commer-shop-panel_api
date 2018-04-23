@@ -41,7 +41,10 @@ Route::group([
     Route::delete('products/delete-all/{products}', 'ProductsController@deleteAll');
     Route::resource('products', 'ProductsController');
     Route::resource('users', 'UsersController');
-    Route::post('/users/{user}/duplicate', 'UsersController@duplicate');
+    Route::post('/users/duplicate', 'UsersController@duplicate');
+    Route::put('/users/{id}/change-password', 'UsersController@changePassword');
+    Route::get('/users/{id}', 'UsersController@getUser');
+    Route::post('/users/test', 'UsersController@test');
 
     Route::get('modules', 'UserModuleAccessesController@getShopModules');
     Route::get('access-rights', 'UserModuleAccessesController@getAccessRights');

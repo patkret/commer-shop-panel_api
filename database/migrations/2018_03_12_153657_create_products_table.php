@@ -42,6 +42,7 @@ class CreateProductsTable extends Migration
             $table->integer('stockAvail');
             $table->text('attributeSets')->nullable();
             $table->text('variantSets')->nullable();
+            $table->integer('selectedVariantSet')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
