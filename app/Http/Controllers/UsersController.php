@@ -109,6 +109,9 @@ class UsersController extends Controller
 
             $user->update(['password' => $request->user['newPassword']]);
         }
+        else{
+            abort(500);
+        }
     }
 
     public function getUser($id){
@@ -116,12 +119,4 @@ class UsersController extends Controller
         return User::where('id', $id)->first();
     }
 
-    public function test(Request $request){
-//
-        $oldPassword = bcrypt($request->user['oldPassword']);
-//        dd($oldPassword);
-        $user = User::where('id', $request->id)->first();
-        dd($user->password, $oldPassword);
-        return $user;
-    }
 }
