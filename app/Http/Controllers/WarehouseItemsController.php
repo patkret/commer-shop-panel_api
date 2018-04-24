@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\WarehouseItem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class WarehouseItemsController extends Controller
@@ -11,9 +13,16 @@ class WarehouseItemsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $items = DB::table('warehouse_items')
+            ->select('group_id', 'price', 'added_at', DB::raw('count(group_id) as quantity, group_id'))
+            ->where('warehouse_id', $id)
+            ->groupBy('group_id', 'price', 'added_at')
+            ->get();
+
+        return $items;
+
     }
 
     /**
@@ -34,7 +43,9 @@ class WarehouseItemsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        for($i = 0; $i < $request->quantity; $i++){
+            WarehouseItem::create($request->warehouse_item);
+        }
     }
 
     /**
@@ -75,10 +86,19 @@ class WarehouseItemsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function destroy($id)
     {
-        //
+        WarehouseItem::where('group_id', $id)->delete();
+
+        return ['status' => 1];
+    }
+
+    public function getLastGroupId(){
+
+        $last_group_id = WarehouseItem::max('group_id');
+
+        return $last_group_id;
     }
 }

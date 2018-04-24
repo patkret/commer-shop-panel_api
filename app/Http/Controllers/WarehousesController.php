@@ -10,7 +10,7 @@ class WarehousesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function index()
     {
@@ -37,7 +37,7 @@ class WarehousesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Warehouse::create($request->stock);
     }
 
     /**
@@ -71,7 +71,7 @@ class WarehousesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Warehouse::find($id)->update($request->stock);
     }
 
     /**
@@ -82,6 +82,6 @@ class WarehousesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Warehouse::find($id)->delete();
     }
 }

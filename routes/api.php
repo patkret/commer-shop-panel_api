@@ -45,6 +45,10 @@ Route::group([
     Route::put('/users/{id}/change-password', 'UsersController@changePassword');
     Route::get('/users/{id}', 'UsersController@getUser');
     Route::post('/users/test', 'UsersController@test');
+    Route::resource('/warehouses', 'WarehousesController');
+    Route::get('/warehouse-items/{id}', 'WarehouseItemsController@index');
+    Route::resource('/warehouse-items', 'WarehouseItemsController');
+    Route::get('/last-group-id', 'WarehouseItemsController@getLastGroupId');
 
     Route::get('modules', 'UserModuleAccessesController@getShopModules');
     Route::get('access-rights', 'UserModuleAccessesController@getAccessRights');

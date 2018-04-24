@@ -15,8 +15,14 @@ class WarehouseItems extends Migration
     {
         Schema::create('warehouse_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('net_price');
+            $table->integer('warehouse_id')->unsigned();
+            $table->integer('group_id')->unsigned();
+            $table->string('price');
+            $table->string('added_at');
+            $table->foreign('warehouse_id')
+                ->references('id')
+                ->on('warehouses')
+                ->odDelete('cascade');
             $table->timestamps();
         });
     }
