@@ -36,12 +36,13 @@ class ProductsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function store(Request $request)
     {
 
-        Product::create($request->product);
+        $created = Product::create($request->product);
+        $created->categories()->attach($request->categories);
 
         return ['status' => 1];
     }
@@ -73,11 +74,14 @@ class ProductsController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function update(Request $request, Product $product)
     {
         $product->update($request->product);
+        $product->categories()->sync($request->categories);
+
+        return ['status' => 1];
     }
 
     /**

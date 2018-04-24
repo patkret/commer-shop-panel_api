@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\WarehouseItem;
+use App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -38,20 +39,26 @@ class WarehouseItemsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        for($i = 0; $i < $request->quantity; $i++){
-            WarehouseItem::create($request->warehouse_item);
+
+        $items = [];
+        for ($i = 0; $i < $request->quantity; $i++) {
+
+            $items[$i] = $request->warehouse_item;
         }
+
+        WarehouseItem::insert($items);
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -62,7 +69,7 @@ class WarehouseItemsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -73,8 +80,8 @@ class WarehouseItemsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -85,7 +92,7 @@ class WarehouseItemsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return array
      */
     public function destroy($id)
@@ -95,7 +102,8 @@ class WarehouseItemsController extends Controller
         return ['status' => 1];
     }
 
-    public function getLastGroupId(){
+    public function getLastGroupId()
+    {
 
         $last_group_id = WarehouseItem::max('group_id');
 
