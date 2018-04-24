@@ -38,11 +38,16 @@ class CreateProductsTable extends Migration
             $table->text('longDescription')->nullable();
             $table->double('price');
             $table->double('intoStockPrice');
-            $table->integer('stock');
+//            $table->integer('stock');
             $table->integer('stockAvail');
             $table->text('attributeSets')->nullable();
             $table->text('variantSets')->nullable();
             $table->integer('selectedVariantSet')->nullable();
+            $table->integer('stock')->unsigned()->nullable();
+            $table->foreign('stock')
+                ->references('id')
+                ->on('warehouses')
+                ->onDelete('set null');
             $table->timestamps();
             $table->softDeletes();
 
