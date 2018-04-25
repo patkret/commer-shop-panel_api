@@ -39,6 +39,7 @@ Route::group([
 	Route::get('/main-categories', 'ProductsController@getMainCategories');
     Route::get('products/{id}', 'ProductsController@getProduct');
     Route::delete('products/delete-all/{products}', 'ProductsController@deleteAll');
+    Route::get('/products-count', 'ProductsController@numberOfProducts');
     Route::resource('products', 'ProductsController');
     Route::resource('users', 'UsersController');
     Route::post('/users/duplicate', 'UsersController@duplicate');

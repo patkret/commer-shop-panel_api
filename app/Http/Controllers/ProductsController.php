@@ -111,4 +111,10 @@ class ProductsController extends Controller
     public function deleteAll($products){
         Product::destroy($products);
     }
+
+    public function numberOfProducts(){
+
+        $noOfProducts = DB::table('products')->count();
+        return $noOfProducts;
+    }
 }
