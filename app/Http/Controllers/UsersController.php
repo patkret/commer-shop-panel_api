@@ -101,9 +101,8 @@ class UsersController extends Controller
 
     public function changePassword(Request $request, $id){
 
-//        $oldPassword = bcrypt($request->user['oldPassword']);
-        $oldPassword = $request->user['oldPassword'];
-
+        $oldPassword = bcrypt($request->user['oldPassword']);
+//        $oldPassword = $request->user['oldPassword'];
         $user = User::where('id', $id)->first();
         if($user->password == $oldPassword){
 
