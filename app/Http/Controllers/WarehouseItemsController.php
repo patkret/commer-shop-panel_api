@@ -2,23 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\WarehouseItem;
+use App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\User;
-use Illuminate\Support\Facades\Validator;
-use app\Exceptions\Handler;
 
-class UsersController extends Controller
+class WarehouseItemsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return array
+     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $users = User::all();
+        $items = DB::table('warehouse_items')
+            ->select('group_id', 'price', 'added_at', DB::raw('count(group_id) as quantity, group_id'))
+            ->where('warehouse_id', $id)
+            ->groupBy('group_id', 'price', 'added_at')
+            ->get();
 
-        return $users->makeVisible('password')->toArray();
+        return $items;
+
     }
 
     /**
@@ -28,20 +33,26 @@ class UsersController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return array
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        User::create($request->all());
 
-        return ['status' => 1];
+        $items = [];
+        for ($i = 0; $i < $request->quantity; $i++) {
+
+            $items[$i] = $request->warehouse_item;
+        }
+
+        WarehouseItem::insert($items);
+
     }
 
     /**
@@ -50,9 +61,9 @@ class UsersController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-
+        //
     }
 
     /**
@@ -75,47 +86,27 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        User::find($id)->update($request->editedUser);
-
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function destroy($id)
     {
-        User::find($id)->delete();
+        WarehouseItem::where('group_id', $id)->delete();
 
-
+        return ['status' => 1];
     }
 
-    public function duplicate(Request $request)
+    public function getLastGroupId()
     {
-       User::create($request->duplicatingUser);
 
+        $last_group_id = WarehouseItem::max('group_id');
+
+        return $last_group_id;
     }
-
-    public function changePassword(Request $request, $id){
-
-        $oldPassword = bcrypt($request->user['oldPassword']);
-//        $oldPassword = $request->user['oldPassword'];
-        $user = User::where('id', $id)->first();
-        if($user->password == $oldPassword){
-
-            $user->update(['password' => $request->user['newPassword']]);
-        }
-        else{
-            abort(500);
-        }
-    }
-
-    public function getUser($id){
-
-        return User::where('id', $id)->first();
-    }
-
 }

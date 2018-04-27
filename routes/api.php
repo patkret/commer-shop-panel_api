@@ -38,12 +38,18 @@ Route::group([
 	Route::get('/price-options', 'VariantGroupsController@priceOptions');
 	Route::get('/main-categories', 'ProductsController@getMainCategories');
     Route::get('products/{id}', 'ProductsController@getProduct');
+    Route::delete('products/delete-all/{products}', 'ProductsController@deleteAll');
+    Route::get('/products-count', 'ProductsController@numberOfProducts');
     Route::resource('products', 'ProductsController');
     Route::resource('users', 'UsersController');
     Route::post('/users/duplicate', 'UsersController@duplicate');
     Route::put('/users/{id}/change-password', 'UsersController@changePassword');
     Route::get('/users/{id}', 'UsersController@getUser');
     Route::post('/users/test', 'UsersController@test');
+    Route::resource('/warehouses', 'WarehousesController');
+    Route::get('/warehouse-items/{id}', 'WarehouseItemsController@index');
+    Route::resource('/warehouse-items', 'WarehouseItemsController');
+    Route::get('/last-group-id', 'WarehouseItemsController@getLastGroupId');
 
     Route::get('modules', 'UserModuleAccessesController@getShopModules');
     Route::get('access-rights', 'UserModuleAccessesController@getAccessRights');

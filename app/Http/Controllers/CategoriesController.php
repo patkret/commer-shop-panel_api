@@ -101,7 +101,7 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-    	$all = $request->all();
+        $all = $request->all();
     	if(intval($all['parent_id']) > 0) {
     	    $lastCategory = Category::orderBy('order_no', 'DESC')
 		                        ->first();
