@@ -23,6 +23,9 @@ class CreateProductsTable extends Migration
             $table->double('height')->nullable();
             $table->double('width')->nullable();
             $table->double('depth')->nullable();
+            $table->string('meta_description')->nullable();
+            $table->string('meta_keywords')->nullable();
+            $table->string('url')->nullable();
             $table->integer('vendor')->unsigned()->nullable();
             $table->foreign('vendor')
                 ->references('id')

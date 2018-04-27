@@ -146,8 +146,8 @@ class CategoriesController extends Controller
     public function update(Request $request, $id)
     {
         $category = Category::find($id);
-
         $category->update($request->editedCategory);
+        return $category;
 
     }
 
@@ -159,17 +159,45 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        Category::destroy($id);
+        //$category->delete();
+        function kill($id) {
+            if(Category::where('parent_id', $id)->count()) {
+                foreach (Category::where('parent_id', $id)->get() as $child) {
+                    kill($child->id);
+                }
+            }
+                Category::destroy($id);
+        }
+
+        kill($id);
+
+//        Category::destroy($id);
 
     }
 
     public function duplicate($id){
         $current_category = Category::find($id);
+
+        function duplicate($id, $newParent) {
+            $duplicate_category = Category::find($id)->replicate();
+            $duplicate_category->name = $duplicate_category->name.'_copy';
+            $duplicate_category->parent_id = $newParent;
+            $duplicate_category->save();
+
+            if(Category::where('parent_id', $id)->count()) {
+                foreach (Category::where('parent_id', $id)->get() as $child) {
+                    duplicate($child->id, $duplicate_category->id);
+                }
+            }
+
+        }
+
+        duplicate($id, 0);
 //        $category_subcategories = Category::where('parent_id', $id)->get();
         
-        $duplicate_category = $current_category->replicate();
-        $duplicate_category->name = $duplicate_category->name.'_copy';
-        $duplicate_category->save();
+//        $duplicate_category = $current_category->replicate();
+//        $duplicate_category->name = $duplicate_category->name.'_copy';
+//        $duplicate_category->save();
     }
 
     public function getCategory($id){
