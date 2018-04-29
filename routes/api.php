@@ -37,6 +37,7 @@ Route::group([
 	Route::get('/types', 'VariantGroupsController@variantTypes');
 	Route::get('/price-options', 'VariantGroupsController@priceOptions');
 	Route::get('/main-categories', 'ProductsController@getMainCategories');
+	Route::put('/products/change-visibility', 'ProductsController@changeVisibility');
     Route::get('products/{id}', 'ProductsController@getProduct');
     Route::delete('products/delete-all/{products}', 'ProductsController@deleteAll');
     Route::get('/products-count', 'ProductsController@numberOfProducts');

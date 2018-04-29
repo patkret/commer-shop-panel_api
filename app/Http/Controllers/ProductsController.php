@@ -117,4 +117,11 @@ class ProductsController extends Controller
         $noOfProducts = DB::table('products')->count();
         return $noOfProducts;
     }
+
+    public function changeVisibility(Request $request){
+        $ids = $request->ids;
+        $visibility = $request->visibility;
+        Product::whereIn('id', $ids)
+            ->update(['visibility' => $visibility]);
+    }
 }

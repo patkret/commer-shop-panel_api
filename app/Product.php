@@ -25,12 +25,12 @@ class Product extends Model
             'shortDescription',
             'longDescription',
             'price',
-            'intoStockPrice',
             'stock',
             'stockAvail',
             'attributeSets',
             'variantSets',
-            'selectedVariantSet'];
+            'selectedVariantSet',
+            'main_category'];
 
 
     protected $table = 'products';
