@@ -17,7 +17,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::paginate(5);
 
         return $products;
     }
@@ -35,7 +35,7 @@ class ProductsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function store(Request $request)
@@ -50,7 +50,7 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  \App\Product $product
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product)
@@ -61,7 +61,7 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  \App\Product $product
      * @return \Illuminate\Http\Response
      */
     public function edit(Product $product)
@@ -72,8 +72,8 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Product $product
      * @return array
      */
     public function update(Request $request, Product $product)
@@ -87,7 +87,7 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $product
+     * @param  \App\Product $product
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product)
@@ -102,26 +102,126 @@ class ProductsController extends Controller
         return $mainCategories;
     }
 
-    public function getProduct($id){
-       $product =  Product::where('id', $id)->first();
+    public function getProduct($id)
+    {
+        $product = Product::where('id', $id)->first();
 
-       return $product;
+        return $product;
     }
 
-    public function deleteAll($products){
+    public function deleteAll($products)
+    {
+
+        $products = json_decode($products);
         Product::destroy($products);
+
     }
 
-    public function numberOfProducts(){
+    public function numberOfProducts()
+    {
 
         $noOfProducts = DB::table('products')->count();
         return $noOfProducts;
     }
 
-    public function changeVisibility(Request $request){
+    public function changeVisibility(Request $request)
+    {
         $ids = $request->ids;
         $visibility = $request->visibility;
         Product::whereIn('id', $ids)
             ->update(['visibility' => $visibility]);
     }
+
+    public function changeMainCategory(Request $request)
+    {
+        $ids = $request->ids;
+        $main_category_id = $request->main_category;
+        Product::whereIn('id', $ids)
+            ->update(['main_category' => $main_category_id]);
+    }
+
+    public function changeVendor(Request $request)
+    {
+        $ids = $request->ids;
+        $vendor_id = $request->vendor;
+        Product::whereIn('id', $ids)
+            ->update(['vendor' => $vendor_id]);
+    }
+
+    public function changePrice(Request $request)
+    {
+        $ids = $request->ids;
+
+        if ($request->selectedPriceOption['id'] === 0) {
+            if ($request->selectedCurr['id'] === 1) {
+                Product::whereIn('id', $ids)
+                    ->increment('price', $request->priceValue);
+            } else {
+                $price = $request->priceValue;
+                $updatePrice = 1 + $price / 100;
+
+                Product::whereIn('id', $ids)
+                    ->update(['price' => DB::raw('round(price * ' . $updatePrice . ',2)')]);
+            }
+        } else {
+
+            if ($request->selectedCurr['id'] === 1) {
+                Product::whereIn('id', $ids)
+                    ->decrement('price', $request->priceValue);
+            } else {
+                $price = $request->priceValue;
+                $updatePrice = 1 - $price / 100;
+                print_r($updatePrice);
+
+                Product::whereIn('id', $ids)
+                    ->update(['price' => DB::raw('round(price * ' . $updatePrice . ', 2)')]);
+            }
+
+        }
+
+    }
+
+    public function sortByPriceAsc()
+    {
+        $products = Product::orderBy('price', 'asc')->get();
+
+        return $products;
+    }
+
+    public function sortByPriceDesc()
+    {
+        $products = Product::orderBy('price', 'desc')->get();
+
+        return $products;
+    }
+    public function sortByName()
+    {
+        $products = Product::orderBy('name', 'asc')->get();
+
+        return $products;
+    }
+    public function sortByRecentlyAdded()
+    {
+        $products = Product::orderBy('created_at', 'desc')->get();
+
+        return $products;
+    }
+
+    public function getMaxPrice() {
+
+        $max_price = Product::max('price');
+
+        return $max_price;
+    }
+    public function filter(Request $request){
+
+        return DB::table('products')
+            ->where('deleted_at', '=', NULL)
+            ->where('visibility', '=', $request->visibility)
+            ->where('vendor', '=', $request->vendor)
+            ->where('main_category', '=', $request->category)
+//            ->WhereBetween('price', [$request->price_from, $request->price_to])
+            ->paginate(5);
+    }
+
 }
