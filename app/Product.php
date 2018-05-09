@@ -25,12 +25,12 @@ class Product extends Model
             'shortDescription',
             'longDescription',
             'price',
-            'intoStockPrice',
             'stock',
             'stockAvail',
             'attributeSets',
             'variantSets',
-            'selectedVariantSet'];
+            'selectedVariantSet',
+            'main_category'];
 
 
     protected $table = 'products';
@@ -38,5 +38,10 @@ class Product extends Model
     public function categories(){
 
         return $this->belongsToMany(Category::class, 'product_has_category');
+    }
+
+    public function products(){
+
+        return $this->belongsToMany(Product::class, 'product_has_related_product');
     }
 }

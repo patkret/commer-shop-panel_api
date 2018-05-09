@@ -104,5 +104,12 @@ class AttributeSetsController extends Controller
         return $attr_set;
     }
 
+    public function getAttributeSetCategories($id){
+
+        $category_attribute_sets = AttributeSet::find($id)->first()->categories;
+
+        return $category_attribute_sets;
+    }
+
 
 }

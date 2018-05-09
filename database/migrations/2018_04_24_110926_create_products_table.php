@@ -40,8 +40,10 @@ class CreateProductsTable extends Migration
             $table->string('shortDescription')->nullable();
             $table->text('longDescription')->nullable();
             $table->double('price');
-            $table->double('intoStockPrice');
-//            $table->integer('stock');
+            $table->integer('main_category')->unsigned();
+            $table->foreign('main_category')
+                ->references('id')
+                ->on('categories');
             $table->integer('stockAvail');
             $table->text('attributeSets')->nullable();
             $table->text('variantSets')->nullable();
