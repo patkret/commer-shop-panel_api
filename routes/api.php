@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 //});
 Route::group([
 //	'middleware' => 'acl'
-	'middleware' => 'jwt'
+	//'middleware' => 'jwt'
 ], function () {
 	Route::post( '/categories/{category}/duplicate', 'CategoriesController@duplicate' );
     Route::get('all-categories', 'CategoriesController@getAllCategories');
@@ -49,7 +49,7 @@ Route::group([
     Route::get('products-sort-price-desc', 'ProductsController@sortByPriceDesc');
     Route::get('products-sort-name', 'ProductsController@sortByName');
     Route::get('products-sort-recently-added', 'ProductsController@sortByRecentlyAdded');
-    Route::post('/products-filter', 'ProductsController@filter');
+    Route::get('/products-filter', 'ProductsController@filter');
     Route::get('/products-max-price', 'ProductsController@getMaxPrice');
     Route::get('/products-count', 'ProductsController@numberOfProducts');
 //    Route::get('/products/{sort}', 'ProductsController@index');

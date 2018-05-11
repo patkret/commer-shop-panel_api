@@ -181,47 +181,69 @@ class ProductsController extends Controller
 
     }
 
-    public function sortByPriceAsc()
+//    public function sortByPriceAsc()
+//    {
+//        $products = Product::orderBy('price', 'asc')->get();
+//
+//        return $products;
+//    }
+//
+//    public function sortByPriceDesc()
+//    {
+//        $products = Product::orderBy('price', 'desc')->get();
+//
+//        return $products;
+//    }
+//
+//    public function sortByName()
+//    {
+//        $products = Product::orderBy('name', 'asc')->get();
+//
+//        return $products;
+//    }
+//
+//    public function sortByRecentlyAdded()
+//    {
+//        $products = Product::orderBy('created_at', 'desc')->get();
+//
+//        return $products;
+//    }
+
+    public function getMaxPrice()
     {
-        $products = Product::orderBy('price', 'asc')->get();
-
-        return $products;
-    }
-
-    public function sortByPriceDesc()
-    {
-        $products = Product::orderBy('price', 'desc')->get();
-
-        return $products;
-    }
-    public function sortByName()
-    {
-        $products = Product::orderBy('name', 'asc')->get();
-
-        return $products;
-    }
-    public function sortByRecentlyAdded()
-    {
-        $products = Product::orderBy('created_at', 'desc')->get();
-
-        return $products;
-    }
-
-    public function getMaxPrice() {
 
         $max_price = Product::max('price');
 
         return $max_price;
     }
-    public function filter(Request $request){
 
-        return DB::table('products')
-            ->where('deleted_at', '=', NULL)
-            ->where('visibility', '=', $request->visibility)
-            ->where('vendor', '=', $request->vendor)
-            ->where('main_category', '=', $request->category)
-//            ->WhereBetween('price', [$request->price_from, $request->price_to])
-            ->paginate(5);
+    public function filter(Request $request)
+    {
+
+        $orderby = $request->get('order_by');
+        $order = $request->get('order');
+        $rows = $request->get('rows');
+        $price_from = $request->get('price_from', false);
+        $price_to = $request->get('price_to', false);
+        $vendor = $request->get('vendor', false);
+        $category = $request->get('main_category', false);
+        $visibility = $request->get('visibility', false);
+
+        return Product::when($visibility != 'null', function ($query) use ($visibility) {
+            return $query->where('visibility', 1);
+            })
+            ->when($vendor, function ($query) use ($vendor) {
+                return $query->where('vendor', $vendor);
+            })
+            ->when($category, function ($query) use ($category) {
+                return $query->where('main_category', $category);
+            })
+            ->when(($price_from && $price_to), function ($query) use ($price_from, $price_to) {
+                return $query->whereBetween('price', [$price_from, $price_to]);
+            })
+            ->orderBy($orderby, $order)
+            ->paginate($rows);
     }
+
 
 }
