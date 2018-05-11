@@ -68,7 +68,10 @@ Route::group([
     Route::get('access-rights', 'UserModuleAccessesController@getAccessRights');
     Route::resource('user-access', 'UserModuleAccessesController');
 
-
+    Route::get('copy-page/{id}', 'StaticPagesController@duplicate');
+    Route::resource('static-pages', 'StaticPagesController');
+    Route::resource('clients', 'ClientsController');
+    Route::resource('newsletters', 'NewslettersController');
 });
 
 Route::post('login', 'AuthController@login');
