@@ -48,10 +48,7 @@ class AddNewsletterController extends Controller
      */
     public function show(AddNewsletter $addNewsletter)
     {
-        $newsletter =
-        AddNewsletter::find($addNewsletter);
 
-        return $newsletter;
     }
 
     /**
@@ -62,10 +59,7 @@ class AddNewsletterController extends Controller
      */
     public function edit(AddNewsletter $addNewsletter)
     {
-        $newsletter =
-            AddNewsletter::find($addNewsletter);
 
-        return $newsletter;
     }
 
     /**
@@ -77,8 +71,8 @@ class AddNewsletterController extends Controller
      */
     public function update(Request $request, AddNewsletter $addNewsletter)
     {
-        $data = $request->all();
-        Client::find($addNewsletter)->update($data);
+        $addNewsletter->update($request->all());
+
         return ['status' => 1];
     }
 
@@ -90,7 +84,8 @@ class AddNewsletterController extends Controller
      */
     public function destroy(AddNewsletter $addNewsletter)
     {
-        AddNewsletter::find($addNewsletter)->delete();
+        $addNewsletter->delete();
+
         return ['status' => 1];
     }
 }
