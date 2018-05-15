@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 //});
 Route::group([
 //	'middleware' => 'acl'
-	//'middleware' => 'jwt'
+	'middleware' => 'jwt'
 ], function () {
 	Route::post( '/categories/{category}/duplicate', 'CategoriesController@duplicate' );
     Route::get('all-categories', 'CategoriesController@getAllCategories');
