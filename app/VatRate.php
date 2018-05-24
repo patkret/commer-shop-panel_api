@@ -27,5 +27,5 @@ class VatRate extends Model
      */
     protected $fillable = ['rate', 'description', 'name'];
 
-    
+    public $module_id = 7;
 }

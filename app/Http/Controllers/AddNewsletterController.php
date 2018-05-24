@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AddNewsletter;
+use App\Newsletter;
 use Illuminate\Http\Request;
 
 class AddNewsletterController extends Controller
@@ -36,6 +37,7 @@ class AddNewsletterController extends Controller
     public function store(Request $request)
     {
         AddNewsletter::create($request->all());
+
 
         return ['message' => 'ok'];
     }

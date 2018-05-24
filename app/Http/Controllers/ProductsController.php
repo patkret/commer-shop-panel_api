@@ -6,10 +6,12 @@ use App\Category;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpFoundation\Response;
+use App\Log;
 
 class ProductsController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -32,41 +34,19 @@ class ProductsController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return array
-     */
-    public function store(Request $request)
+
+    public function store(Request $request, Product $product)
     {
+        $new_product = $request->product;
 
-        $created = Product::create($request->product);
-        $created->categories()->attach($request->categories);
+        $new_product['barcode_simple'] = escape_like($new_product['barcode']);
 
-        return ['status' => 1];
-    }
+        $created = Product::create($new_product);
+        $created->categories()->attach($new_product['categories']);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
-    {
-        //
-    }
+        Log::createNew($product->mod_id, $created->name, 'add');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
-    {
-        //
+        return $created;
     }
 
     /**
@@ -78,8 +58,11 @@ class ProductsController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        $name_before_update = $product->name;
         $product->update($request->product);
         $product->categories()->sync($request->categories);
+
+        Log::createNew($product->mod_id, $name_before_update, 'edit');
 
         return ['status' => 1];
     }
@@ -93,6 +76,9 @@ class ProductsController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+
+        Log::createNew($product->mod_id, $product->name, 'delete');
+
         return ['status' => 1];
     }
 
@@ -109,11 +95,18 @@ class ProductsController extends Controller
         return $product;
     }
 
-    public function deleteAll($products)
+    public function deleteAll($products, Product $product)
     {
 
         $products = json_decode($products);
         Product::destroy($products);
+
+        foreach ($products as $deleted_product) {
+
+            $product = Product::where('id', $deleted_product)->first();
+
+            Log::createNew($product->mod_id, $product['name'], 'delete');
+        }
 
     }
 
@@ -124,31 +117,49 @@ class ProductsController extends Controller
         return $noOfProducts;
     }
 
-    public function changeVisibility(Request $request)
+    public function changeVisibility(Request $request, Product $product)
     {
         $ids = $request->ids;
         $visibility = $request->visibility;
         Product::whereIn('id', $ids)
             ->update(['visibility' => $visibility]);
+
+        foreach ($ids as $id) {
+
+            $prod = $product->where('id', $id)->first();
+            Log::createNew($product->mod_id, $prod['name'], 'editVisibility');
+        }
     }
 
-    public function changeMainCategory(Request $request)
+    public function changeMainCategory(Request $request, Product $product)
     {
         $ids = $request->ids;
         $main_category_id = $request->main_category;
         Product::whereIn('id', $ids)
             ->update(['main_category' => $main_category_id]);
+
+        foreach ($ids as $id) {
+
+            $prod = $product->where('id', $id)->first();
+            Log::createNew($product->mod_id, $prod['name'], 'editMainCategory');
+        }
     }
 
-    public function changeVendor(Request $request)
+    public function changeVendor(Request $request, Product $product)
     {
         $ids = $request->ids;
         $vendor_id = $request->vendor;
         Product::whereIn('id', $ids)
             ->update(['vendor' => $vendor_id]);
+
+        foreach ($ids as $id) {
+
+            $prod = $product->where('id', $id)->first();
+            Log::createNew($product->mod_id, $prod['name'], 'editVendor');
+        }
     }
 
-    public function changePrice(Request $request)
+    public function changePrice(Request $request, Product $product)
     {
         $ids = $request->ids;
 
@@ -179,35 +190,13 @@ class ProductsController extends Controller
 
         }
 
-    }
+        foreach ($ids as $id) {
 
-//    public function sortByPriceAsc()
-//    {
-//        $products = Product::orderBy('price', 'asc')->get();
-//
-//        return $products;
-//    }
-//
-//    public function sortByPriceDesc()
-//    {
-//        $products = Product::orderBy('price', 'desc')->get();
-//
-//        return $products;
-//    }
-//
-//    public function sortByName()
-//    {
-//        $products = Product::orderBy('name', 'asc')->get();
-//
-//        return $products;
-//    }
-//
-//    public function sortByRecentlyAdded()
-//    {
-//        $products = Product::orderBy('created_at', 'desc')->get();
-//
-//        return $products;
-//    }
+            $prod = $product->where('id', $id)->first();
+            Log::createNew($product->mod_id, $prod['name'], 'editPrice');
+        }
+
+    }
 
     public function getMaxPrice()
     {
@@ -220,6 +209,7 @@ class ProductsController extends Controller
     public function filter(Request $request)
     {
 
+
         $orderby = $request->get('order_by');
         $order = $request->get('order');
         $rows = $request->get('rows');
@@ -231,7 +221,7 @@ class ProductsController extends Controller
 
         return Product::when($visibility != 'null', function ($query) use ($visibility) {
             return $query->where('visibility', 1);
-            })
+        })
             ->when($vendor, function ($query) use ($vendor) {
                 return $query->where('vendor', $vendor);
             })
@@ -244,6 +234,4 @@ class ProductsController extends Controller
             ->orderBy($orderby, $order)
             ->paginate($rows);
     }
-
-
 }

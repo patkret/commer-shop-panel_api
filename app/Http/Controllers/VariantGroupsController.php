@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\VariantGroup;
 use Illuminate\Http\Request;
+use App\Log;
 
 class VariantGroupsController extends Controller
 {
@@ -19,15 +20,6 @@ class VariantGroupsController extends Controller
         return $variant_groups;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -37,31 +29,13 @@ class VariantGroupsController extends Controller
      */
     public function store(Request $request)
     {
-        VariantGroup::create($request->all());
+        $created = VariantGroup::create($request->all());
 
-        return ['status' => 1];
-    }
+        $varGroup = new VariantGroup();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\VariantGroup  $variantGroup
-     * @return \Illuminate\Http\Response
-     */
-    public function show(VariantGroup $variantGroup)
-    {
-        //
-    }
+        Log::createNew($varGroup->module_id, $created->name, 'add');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\VariantGroup  $variantGroup
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(VariantGroup $variantGroup)
-    {
-        //
+        return $created;
     }
 
     /**
@@ -76,6 +50,8 @@ class VariantGroupsController extends Controller
 
         VariantGroup::find($variantGroup)->first()->update($request->all());
 
+        Log::createNew($variantGroup->module_id, $variantGroup->name, 'edit');
+
         return ['status' => 1];
     }
 
@@ -88,11 +64,10 @@ class VariantGroupsController extends Controller
     public function destroy(VariantGroup $variantGroup)
     {
 
-        if (VariantGroup::find($variantGroup)->first()->delete()){
-            return ['status' => 1];
-        }
-        else
-            return ['status' => 0];
+        VariantGroup::find($variantGroup)->first()->delete();
+
+        Log::createNew($variantGroup->module_id, $variantGroup->name, 'delete');
+
     }
 
     public function variantTypes(){

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Http\Request;
+use App\Mail\Register;
+use Illuminate\Support\Facades\Mail;
 
 class ClientsController extends Controller
 {
@@ -25,18 +27,19 @@ class ClientsController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function store(ClientRequest $request)
     {
         return Client::create($request->all());
+
     }
 
     /**
@@ -91,4 +94,14 @@ class ClientsController extends Controller
 
         return ['status' => 1];
     }
+
+    public function register(Request $request){
+
+        $msg =  str_random(5);
+
+        Mail::to($request['email'])->send(new Register($msg));
+
+        return response()->JSON(['message' => 'Successfully registered']);
+    }
+
 }

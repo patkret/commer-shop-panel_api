@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 //});
 Route::group([
 //	'middleware' => 'acl'
-	'middleware' => 'jwt'
+//	'middleware' => 'jwt'
 ], function () {
 	Route::post( '/categories/{category}/duplicate', 'CategoriesController@duplicate' );
     Route::get('all-categories', 'CategoriesController@getAllCategories');
@@ -29,7 +29,7 @@ Route::group([
 	Route::get( 'vat-rates/{id}', 'VatRatesController@getRate' );
 	Route::resource( 'vat-rates', 'VatRatesController' );
 	Route::get( 'attribute-sets/{id}', 'AttributeSetsController@getAttributeSet' );
-	Route::get('attribute-sets-categories/{id}', 'AttributeSetsContoller@getAttributeSetCategories');
+	Route::get('attribute-sets-categories/{id}', 'AttributeSetsController@getAttributeSetCategories');
 	Route::resource( 'attribute-sets', 'AttributeSetsController' );
 	Route::get('vendors/{id}', 'VendorsController@getVendor');
 	Route::resource( 'vendors', 'VendorsController' );
@@ -53,6 +53,7 @@ Route::group([
     Route::get('/products-max-price', 'ProductsController@getMaxPrice');
     Route::get('/products-count', 'ProductsController@numberOfProducts');
 //    Route::get('/products/{sort}', 'ProductsController@index');
+    Route::post('products-search', 'ProductsController@search');
     Route::resource('products', 'ProductsController');
     Route::resource('users', 'UsersController');
     Route::post('/users/duplicate', 'UsersController@duplicate');
@@ -70,8 +71,13 @@ Route::group([
 
     Route::get('copy-page/{id}', 'StaticPagesController@duplicate');
     Route::resource('static-pages', 'StaticPagesController');
+    Route::post('client-new', 'ClientsController@register');
     Route::resource('clients', 'ClientsController');
     Route::resource('newsletters', 'NewslettersController');
+    Route::resource('shipping-details', 'ShippingDetailController');
+    Route::resource('user-logs', 'LogController');
+    Route::post('panel-search', 'HelperController@panelSearch');
+
 });
 
 Route::post('login', 'AuthController@login');

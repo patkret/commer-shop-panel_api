@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Log;
 use App\VatRate;
 use Illuminate\Http\Request;
 
@@ -14,79 +15,66 @@ class VatRatesController extends Controller
      */
     public function index()
     {
-        return VatRate::all();
+        $vatRates = VatRate::all();
+
+        return $vatRates;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        VatRate::create($request->all());
+        $created = VatRate::create($request->all());
+        $vatRate = new VatRate();
+        Log::createNew($vatRate->module_id, $created->name, 'add');
+
+        return $created;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  VatRate $vatRate
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, VatRate $vatRate)
     {
-        VatRate::find($id)->update($request->vat_rate);
+        $vatRate->update($request->vat_rate);
+        $name = $vatRate->name;
+
+        Log::createNew($vatRate->module_id, $name, 'edit');
+
+        return response()->json('updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  VatRate $vatRate
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(VatRate $vatRate)
     {
-        VatRate::find($id)->delete();
+        $name = $vatRate->name;
+        $vatRate->delete();
+
+        Log::createNew($vatRate->module_id, $name, 'delete');
+
+        return response()->json('deleted');
     }
 
 
-    public function getRate($id){
+    public function getRate($id)
+    {
 
-        $rate = VatRate::where('id',$id)->first();
+        $rate = VatRate::where('id', $id)->first();
 
         return $rate;
 
