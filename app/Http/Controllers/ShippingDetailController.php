@@ -23,12 +23,12 @@ class ShippingDetailController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(ShippingDetailRequest $request)
     {
-       $created =  ShippingDetail::create($request->all());
+        $created = ShippingDetail::create($request->all());
 
         return $created;
 
@@ -38,8 +38,8 @@ class ShippingDetailController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ShippingDetail  $shippingDetail
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\ShippingDetail $shippingDetail
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, ShippingDetail $shippingDetail)
@@ -53,7 +53,7 @@ class ShippingDetailController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ShippingDetail  $shippingDetail
+     * @param  \App\ShippingDetail $shippingDetail
      * @return \Illuminate\Http\Response
      */
     public function destroy(ShippingDetail $shippingDetail)
@@ -61,5 +61,13 @@ class ShippingDetailController extends Controller
         $shippingDetail->delete();
 
         return response()->json('deleted');
+    }
+
+    public function getClientShippingDetails($client_id)
+    {
+
+        $shipping_details = ShippingDetail::where('client_id', $client_id)->get();
+
+        return $shipping_details;
     }
 }

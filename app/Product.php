@@ -52,4 +52,9 @@ class Product extends Model
 
         return $this->belongsToMany(Product::class, 'product_has_related_product');
     }
+
+    public function stock(){
+        return $this->belongsTo(Warehouse::class, 'stock');
+    }
+
 }

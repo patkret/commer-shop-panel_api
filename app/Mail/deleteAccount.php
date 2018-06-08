@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Register extends Mailable
+class deleteAccount extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,11 +16,11 @@ class Register extends Mailable
      *
      * @return void
      */
-    public $confirmation_code;
+    public $client_id;
 
-    public function __construct($confirmation_code)
+    public function __construct($client_id)
     {
-        $this->confirmation_code = $confirmation_code;
+        return $this->client_id = $client_id;
     }
 
     /**
@@ -28,11 +28,13 @@ class Register extends Mailable
      *
      * @return $this
      */
-    public function build( )
+    public function build()
     {
-        return $this-> from('ecommershop@gmail.com')
-            ->view('register', [
-                'confirmation_code' => $this->confirmation_code
+        return $this
+            ->subject('Usunięcie konta')
+            ->view('deleteAccountMail', [
+                'client_id' => $this->client_id
             ]);
+
     }
 }

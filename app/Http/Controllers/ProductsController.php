@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Product;
+use App\WarehouseItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Log;
@@ -219,7 +220,7 @@ class ProductsController extends Controller
         $category = $request->get('main_category', false);
         $visibility = $request->get('visibility', false);
 
-        return Product::when($visibility != 'null', function ($query) use ($visibility) {
+        $list = Product::when($visibility != 'null', function ($query) use ($visibility) {
             return $query->where('visibility', 1);
         })
             ->when($vendor, function ($query) use ($vendor) {
@@ -232,6 +233,15 @@ class ProductsController extends Controller
                 return $query->whereBetween('price', [$price_from, $price_to]);
             })
             ->orderBy($orderby, $order)
+            ->with('stock')
             ->paginate($rows);
+
+        foreach ($list as $product){
+            $stock_count = WarehouseItem::where('warehouse_id', $product->stock)->count();
+
+            $product['stock_count'] = $stock_count;
+        }
+
+        return $list;
     }
 }
