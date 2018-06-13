@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 //});
 Route::group([
 //	'middleware' => 'acl'
-//	'middleware' => 'jwt'
+	// 'middleware' => 'jwt'
 ], function () {
 
 //    Categories Routes
@@ -40,7 +40,8 @@ Route::group([
 
 //	Vendors Routes
 	Route::get('vendors/{id}', 'VendorsController@getVendor');
-	Route::resource( 'vendors', 'VendorsController' );
+    Route::resource( 'vendors', 'VendorsController' );
+    Route::post('vendors/change-visibility', 'VendorsController@changeVisibility');
 
 //	Variant Sets Routes
 	Route::get('variant-groups/{id}', 'VariantGroupsController@getVariantGroup');
