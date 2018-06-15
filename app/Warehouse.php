@@ -10,4 +10,9 @@ class Warehouse extends Model
     protected $fillable = ['name'];
 
     use SoftDeletes;
+
+    public function warehouseItems(){
+        return $this->hasMany(WarehouseItem::class, 'warehouse_id');
+    }
+
 }
