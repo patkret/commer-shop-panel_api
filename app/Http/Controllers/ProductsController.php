@@ -220,8 +220,14 @@ class ProductsController extends Controller
         $category = $request->get('main_category', false);
         $visibility = $request->get('visibility', false);
 
+
+        $query = escape_like($request['search']);
+
+        $searchNameValues = preg_split('/\s+/', $request['search'], -1, PREG_SPLIT_NO_EMPTY);
+
+
         $list = Product::when($visibility != 'null', function ($query) use ($visibility) {
-            return $query->where('visibility', 1);
+            return $query->where('visibility', $visibility);
         })
             ->when($vendor, function ($query) use ($vendor) {
                 return $query->where('vendor', $vendor);
@@ -232,7 +238,15 @@ class ProductsController extends Controller
             ->when(($price_from && $price_to), function ($query) use ($price_from, $price_to) {
                 return $query->whereBetween('price', [$price_from, $price_to]);
             })
+            ->where(function ($q) use ($searchNameValues, $query) {
+                foreach ($searchNameValues as $value) {
+                    $q->orWhere('name', 'like', "%{$value}%");
+                }
+            })
+            ->orWhere('barcode_simple', 'LIKE', '%'. $query . '%')
+            ->orWhere('price', 'LIKE', '%' . $query . '%')
             ->orderBy($orderby, $order)
+            ->with('vendor')
             ->with('stock')
             ->paginate($rows);
 

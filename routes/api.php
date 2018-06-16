@@ -79,6 +79,7 @@ Route::group([
     Route::post('/users/test', 'UsersController@test');
 
 //    Warehouse Routes
+    Route::get('warehouses/{id}', 'WarehousesController@getWarehouse');
     Route::resource('/warehouses', 'WarehousesController');
     Route::get('/warehouse-items/{id}', 'WarehouseItemsController@index');
     Route::resource('/warehouse-items', 'WarehouseItemsController');

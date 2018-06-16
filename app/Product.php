@@ -57,4 +57,8 @@ class Product extends Model
         return $this->belongsTo(Warehouse::class, 'stock');
     }
 
+    public function vendor(){
+        return $this->hasOne(Vendor::class, 'id');
+    }
+
 }

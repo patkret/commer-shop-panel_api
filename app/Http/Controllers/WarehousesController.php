@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\WarehouseItem;
 use Illuminate\Http\Request;
 use App\Warehouse;
 
@@ -14,7 +15,8 @@ class WarehousesController extends Controller
      */
     public function index()
     {
-        $warehouses = Warehouse::all();
+
+        $warehouses = Warehouse::with('warehouseItems')->get();
 
         return $warehouses;
     }
@@ -83,5 +85,10 @@ class WarehousesController extends Controller
     public function destroy($id)
     {
         Warehouse::find($id)->delete();
+    }
+
+    public function getWarehouse($id)
+    {
+       return Warehouse::where('id', $id)->first();
     }
 }
