@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('symbol');
             $table->string('barcode');
+            $table->string('barcode_simple');
             $table->string('pkwiuCode');
             $table->double('weight')->nullable();
             $table->double('height')->nullable();

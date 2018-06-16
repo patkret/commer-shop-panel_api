@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
+
+Route::get('register/verify/{confirmation_code}', 'ClientsController@confirm');
+Route::get('client/{client_id}/set-account-password/{confirmation_code}', 'ClientsController@setPasswordView');
+Route::put('client/{client_id}/set-psw', 'ClientsController@setPassword')->name('setClientPassword');
+Route::any('client/{client_id}/delete-account', 'ClientsController@deleteAccount');
+

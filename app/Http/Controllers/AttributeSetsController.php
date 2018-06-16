@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AttributeSet;
 use Illuminate\Http\Request;
+use App\Log;
 
 class AttributeSetsController extends Controller
 {
@@ -14,58 +15,31 @@ class AttributeSetsController extends Controller
      */
     public function index()
     {
-        $attributeSet = AttributeSet::all();
+        $attributeSets = AttributeSet::all();
 
-        return $attributeSet;
-        return ['status' => 1];
+        return $attributeSets;
 
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  AttributeSet $attributeSet
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, AttributeSet $test)
+    public function store(Request $request, AttributeSet $attributeSet)
     {
 
-        $attr_set = $test->create($request->all());
+        $attr_set = $attributeSet->create($request->all());
 
         $attr_set->categories()->sync($request->defaultCategoriesIds);
 
-    }
+        Log::createNew($attributeSet->module_id, $attr_set->name , 'add');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        return $attr_set;
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -83,6 +57,11 @@ class AttributeSetsController extends Controller
 
         $attr_set->categories()->sync($request->defaultCategoriesIds);
 
+        $attributeSet = new AttributeSet();
+        Log::createNew($attributeSet->module_id, $attr_set->name , 'edit');
+
+        return response()->json('updated');
+
     }
 
     /**
@@ -93,7 +72,11 @@ class AttributeSetsController extends Controller
      */
     public function destroy($id)
     {
+        $attributeSet = new AttributeSet();
+        $attr_set = $attributeSet->where('id', $id)->first();
         AttributeSet::find($id)->delete();
+
+        Log::createNew($attributeSet->module_id, $attr_set->name , 'delete');
     }
 
 

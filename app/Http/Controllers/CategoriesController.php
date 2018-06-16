@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use App\Log;
 use Illuminate\Support\Facades\DB;
 
 class CategoriesController extends Controller
@@ -83,15 +84,6 @@ class CategoriesController extends Controller
 		return ['status' => 'ok'];
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -99,7 +91,7 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Category $category)
     {
         $all = $request->all();
     	if(intval($all['parent_id']) > 0) {
@@ -112,28 +104,9 @@ class CategoriesController extends Controller
 	    }
         Category::create($all);
 
+        Log::createNew($category->module_id, 'add');
+
 	    return ['status' => 'ok'];
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
     }
 
     /**
@@ -147,6 +120,8 @@ class CategoriesController extends Controller
     {
         $category = Category::find($id);
         $category->update($request->editedCategory);
+
+        Log::createNew(Category::MODULE_ID, 'edit');
         return $category;
 
     }
@@ -167,6 +142,7 @@ class CategoriesController extends Controller
                 }
             }
                 Category::destroy($id);
+            Log::createNew(Category::MODULE_ID, 'delete');
         }
 
         kill($id);
@@ -193,6 +169,8 @@ class CategoriesController extends Controller
         }
 
         duplicate($id, 0);
+
+        Log::createNew(Category::MODULE_ID, 'duplicate');
 //        $category_subcategories = Category::where('parent_id', $id)->get();
         
 //        $duplicate_category = $current_category->replicate();

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
+    public const MODULE_ID = 1;
+
     use SoftDeletes;
     /**
      * The database table used by the model.

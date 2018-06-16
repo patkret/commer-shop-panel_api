@@ -30,10 +30,18 @@ class Product extends Model
             'attributeSets',
             'variantSets',
             'selectedVariantSet',
-            'main_category'];
+            'main_category',
+            'barcode_simple'];
 
 
     protected $table = 'products';
+
+    private $module_id = 2;
+
+    public function getModIdAttribute($value) {
+
+        return $this->module_id;
+    }
 
     public function categories(){
 
@@ -44,4 +52,9 @@ class Product extends Model
 
         return $this->belongsToMany(Product::class, 'product_has_related_product');
     }
+
+    public function stock(){
+        return $this->belongsTo(Warehouse::class, 'stock');
+    }
+
 }

@@ -10,4 +10,6 @@ class VariantGroup extends Model
 
     protected $table = 'variant_groups';
 
+    public $module_id = 6;
+
 }
