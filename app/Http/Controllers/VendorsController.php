@@ -95,4 +95,10 @@ class VendorsController extends Controller
 
         return $vendor;
     }
+    public function changeVisibility(Request $request){
+
+       $updated = Vendor::where('visibility', $request->visibility)->update(['visibility'], $request->visibility);
+
+       return $updated;
+    }
 }
