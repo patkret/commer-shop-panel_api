@@ -60,5 +60,11 @@ class Product extends Model
     public function vendor(){
         return $this->hasOne(Vendor::class, 'id');
     }
+    public function vatRate(){
+        return $this->hasOne(VatRate::class, 'id');
+    }
+    public function mainCategory(){
+        return $this->hasOne(Category::class, 'id');
+    }
 
 }

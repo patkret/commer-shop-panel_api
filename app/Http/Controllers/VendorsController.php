@@ -101,4 +101,8 @@ class VendorsController extends Controller
 
        return $updated;
     }
+
+    public function checkLogo(Request $request){
+        return $request;
+    }
 }

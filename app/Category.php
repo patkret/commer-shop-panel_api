@@ -31,5 +31,7 @@ class Category extends Model
      */
     protected $fillable = ['name', 'photo', 'visibility', 'parent_id', 'order_no', 'page_title', 'description'];
 
-    
+    public function attributeSets(){
+        return $this->belongsToMany(AttributeSet::class, 'attribute_set_has_category');
+    }
 }
