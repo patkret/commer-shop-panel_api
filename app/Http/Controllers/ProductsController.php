@@ -20,7 +20,12 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(5);
+        $products = Product::with('vendor', 'stock')->paginate(10);
+
+        foreach ($products as $product){
+            $stock_count = WarehouseItem::where('warehouse_id', $product->stock)->count();
+            $product['stock_count'] = $stock_count;
+        }
 
         return $products;
     }
@@ -44,6 +49,7 @@ class ProductsController extends Controller
 
         $created = Product::create($new_product);
         $created->categories()->attach($new_product['categories']);
+        $created->relatedProducts()->attach($new_product['relatedProducts']);
 
         Log::createNew($product->mod_id, $created->name, 'add');
 
@@ -91,7 +97,7 @@ class ProductsController extends Controller
 
     public function getProduct($id)
     {
-        $product = Product::with('vendor', 'vatRate', 'stock', 'mainCategory')->where('id', $id)->first();
+        $product = Product::with('vendor', 'vatRate', 'stock', 'mainCategory', 'relatedProducts')->where('id', $id)->first();
 
         return $product;
     }
