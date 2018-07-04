@@ -18,6 +18,7 @@ class CreateVendorsTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('logo')->nullable();
+            $table->boolean('is_visible')->nullable();
             $table->timestamps();
         });
     }

@@ -79,6 +79,7 @@ Route::group([
     Route::get('modules', 'UserModuleAccessesController@getShopModules');
     Route::get('access-rights', 'UserModuleAccessesController@getAccessRights');
     Route::resource('user-access', 'UserModuleAccessesController');
+    
     Route::post('/users/test', 'UsersController@test');
 
 //    Warehouse Routes
@@ -120,3 +121,5 @@ Route::group([
 Route::post('login', 'AuthController@login');
 Route::post('logout', 'AuthController@logout');
 Route::post('refresh', 'AuthController@refresh');
+Route::post('user/reset-password', 'UsersController@sendEmailResetPassword');
+Route::get('user/{$id}/reset-password', 'UsersController@resetPassword');
