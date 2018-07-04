@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 //});
 Route::group([
 //	'middleware' => 'acl'
-	'middleware' => 'jwt'
+//	'middleware' => 'jwt'
 ], function () {
 
 //    Categories Routes
