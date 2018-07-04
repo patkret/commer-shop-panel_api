@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 //});
 Route::group([
 //	'middleware' => 'acl'
-	// 'middleware' => 'jwt'
+	'middleware' => 'jwt'
 ], function () {
 
 //    Categories Routes
@@ -27,6 +27,7 @@ Route::group([
 	Route::get( 'categories/{id}', 'CategoriesController@getCategory' );
 	Route::get( 'categories/parent/{id}', 'CategoriesController@getParent' );
 	Route::patch( 'categories/save-orders', 'CategoriesController@saveOrders' );
+	Route::get('categories/{id}/attribute-sets', 'CategoriesController@getAttributeSets');
 	Route::resource( 'categories', 'CategoriesController' );
 
 //	Vat Rates Routes
@@ -40,8 +41,9 @@ Route::group([
 
 //	Vendors Routes
 	Route::get('vendors/{id}', 'VendorsController@getVendor');
-    Route::resource( 'vendors', 'VendorsController' );
-    Route::post('vendors/change-visibility', 'VendorsController@changeVisibility');
+	Route::put('vendors/change-visibility', 'VendorsController@changeVisibility');
+	Route::post('vendors/check-logo', 'VendorsController@checkLogo');
+	Route::resource( 'vendors', 'VendorsController' );
 
 //	Variant Sets Routes
 	Route::get('variant-groups/{id}', 'VariantGroupsController@getVariantGroup');

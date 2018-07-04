@@ -203,6 +203,13 @@ class CategoriesController extends Controller
         return Category::all();
     }
 
+    public function getAttributeSets($id) {
+
+        $category = Category::with('attributeSets')->where('id', $id)->first();
+
+        return $category;
+    }
+
 
 
 }

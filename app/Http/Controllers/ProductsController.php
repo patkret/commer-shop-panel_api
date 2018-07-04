@@ -91,7 +91,7 @@ class ProductsController extends Controller
 
     public function getProduct($id)
     {
-        $product = Product::where('id', $id)->first();
+        $product = Product::with('vendor', 'vatRate', 'stock', 'mainCategory')->where('id', $id)->first();
 
         return $product;
     }
