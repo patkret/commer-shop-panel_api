@@ -1468,6 +1468,7 @@
         },
         {
             "name": "psy/psysh",
+<<<<<<< HEAD
             "version": "v0.9.5",
             "source": {
                 "type": "git",
@@ -1478,6 +1479,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/bobthecow/psysh/zipball/0951e91ac04ca28cf317f3997a0adfc319e80106",
                 "reference": "0951e91ac04ca28cf317f3997a0adfc319e80106",
+=======
+            "version": "v0.9.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bobthecow/psysh.git",
+                "reference": "4a2ce86f199d51b6e2524214dc06835e872f4fce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/4a2ce86f199d51b6e2524214dc06835e872f4fce",
+                "reference": "4a2ce86f199d51b6e2524214dc06835e872f4fce",
+>>>>>>> a46ad15d312bb6dc010d92fab08ba9392408b21d
                 "shasum": ""
             },
             "require": {
@@ -1536,7 +1549,11 @@
                 "interactive",
                 "shell"
             ],
+<<<<<<< HEAD
             "time": "2018-06-02T16:39:22+00:00"
+=======
+            "time": "2018-06-10T17:57:20+00:00"
+>>>>>>> a46ad15d312bb6dc010d92fab08ba9392408b21d
         },
         {
             "name": "ramsey/uuid",
@@ -3106,6 +3123,7 @@
         },
         {
             "name": "myclabs/deep-copy",
+<<<<<<< HEAD
             "version": "1.8.0",
             "source": {
                 "type": "git",
@@ -3116,6 +3134,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/478465659fd987669df0bd8a9bf22a8710e5f1b6",
                 "reference": "478465659fd987669df0bd8a9bf22a8710e5f1b6",
+=======
+            "version": "1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/myclabs/DeepCopy.git",
+                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
+                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
+>>>>>>> a46ad15d312bb6dc010d92fab08ba9392408b21d
                 "shasum": ""
             },
             "require": {
@@ -3150,7 +3180,11 @@
                 "object",
                 "object graph"
             ],
+<<<<<<< HEAD
             "time": "2018-05-29T17:25:09+00:00"
+=======
+            "time": "2018-06-11T23:09:50+00:00"
+>>>>>>> a46ad15d312bb6dc010d92fab08ba9392408b21d
         },
         {
             "name": "phar-io/manifest",
@@ -3534,6 +3568,7 @@
         },
         {
             "name": "phpunit/php-file-iterator",
+<<<<<<< HEAD
             "version": "2.0.0",
             "source": {
                 "type": "git",
@@ -3544,6 +3579,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/e20525b0c2945c7c317fff95660698cb3d2a53bc",
                 "reference": "e20525b0c2945c7c317fff95660698cb3d2a53bc",
+=======
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
+                "reference": "cecbc684605bb0cc288828eb5d65d93d5c676d3c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/cecbc684605bb0cc288828eb5d65d93d5c676d3c",
+                "reference": "cecbc684605bb0cc288828eb5d65d93d5c676d3c",
+>>>>>>> a46ad15d312bb6dc010d92fab08ba9392408b21d
                 "shasum": ""
             },
             "require": {
@@ -3577,7 +3624,11 @@
                 "filesystem",
                 "iterator"
             ],
+<<<<<<< HEAD
             "time": "2018-05-28T12:13:49+00:00"
+=======
+            "time": "2018-06-11T11:44:00+00:00"
+>>>>>>> a46ad15d312bb6dc010d92fab08ba9392408b21d
         },
         {
             "name": "phpunit/php-text-template",
@@ -3913,16 +3964,16 @@
         },
         {
             "name": "sebastian/diff",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "e09160918c66281713f1c324c1f4c4c3037ba1e8"
+                "reference": "366541b989927187c4ca70490a35615d3fef2dce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/e09160918c66281713f1c324c1f4c4c3037ba1e8",
-                "reference": "e09160918c66281713f1c324c1f4c4c3037ba1e8",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/366541b989927187c4ca70490a35615d3fef2dce",
+                "reference": "366541b989927187c4ca70490a35615d3fef2dce",
                 "shasum": ""
             },
             "require": {
@@ -3965,7 +4016,7 @@
                 "unidiff",
                 "unified diff"
             ],
-            "time": "2018-02-01T13:45:15+00:00"
+            "time": "2018-06-10T07:54:39+00:00"
         },
         {
             "name": "sebastian/environment",

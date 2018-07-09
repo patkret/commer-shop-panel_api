@@ -93,6 +93,4 @@ class AttributeSetsController extends Controller
 
         return $category_attribute_sets;
     }
-
-
 }

@@ -37,7 +37,9 @@ class VendorsController extends Controller
      */
     public function store(Request $request)
     {
-        Vendor::create($request->vendor);
+        $vendor = Vendor::create($request->vendor);
+
+        return $vendor;
     }
 
     /**
@@ -94,5 +96,16 @@ class VendorsController extends Controller
         $vendor = Vendor::where('id', $id)->first();
 
         return $vendor;
+    }
+
+
+    public function changeVisibility(Request $request){
+
+        Vendor::where('id', $request->id)->update(['is_visible' => $request->is_visible]);
+       
+        return ['status' => 1];
+    }
+    public function checkLogo(Request $request){
+        return $request;
     }
 }

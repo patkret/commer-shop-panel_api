@@ -27,6 +27,7 @@ Route::group([
 	Route::get( 'categories/{id}', 'CategoriesController@getCategory' );
 	Route::get( 'categories/parent/{id}', 'CategoriesController@getParent' );
 	Route::patch( 'categories/save-orders', 'CategoriesController@saveOrders' );
+	Route::get('categories/{id}/attribute-sets', 'CategoriesController@getAttributeSets');
 	Route::resource( 'categories', 'CategoriesController' );
 
 //	Vat Rates Routes
@@ -40,6 +41,8 @@ Route::group([
 
 //	Vendors Routes
 	Route::get('vendors/{id}', 'VendorsController@getVendor');
+	Route::put('vendors/change-visibility', 'VendorsController@changeVisibility');
+	Route::post('vendors/check-logo', 'VendorsController@checkLogo');
 	Route::resource( 'vendors', 'VendorsController' );
 
 //	Variant Sets Routes
@@ -76,6 +79,7 @@ Route::group([
     Route::get('modules', 'UserModuleAccessesController@getShopModules');
     Route::get('access-rights', 'UserModuleAccessesController@getAccessRights');
     Route::resource('user-access', 'UserModuleAccessesController');
+    
     Route::post('/users/test', 'UsersController@test');
 
 //    Warehouse Routes
@@ -117,3 +121,5 @@ Route::group([
 Route::post('login', 'AuthController@login');
 Route::post('logout', 'AuthController@logout');
 Route::post('refresh', 'AuthController@refresh');
+Route::post('user/reset-password', 'UsersController@sendEmailResetPassword');
+Route::get('user/{$id}/reset-password', 'UsersController@resetPassword');
