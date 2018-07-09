@@ -113,7 +113,9 @@ Route::group([
 
 
     Route::post('panel-search', 'HelperController@panelSearch');
-
+//  Emails Routes
+    Route::resource('emails', 'EmailsController');
+    Route::put('emails/{id}/change-active', 'EmailsController@changeActive');
 
 });
 
