@@ -47,7 +47,6 @@ class ImportWineMp extends Command
 
    
             $results = $reader->all();
-
             foreach($results->toArray() as $result) {
                 print_r($result);
 

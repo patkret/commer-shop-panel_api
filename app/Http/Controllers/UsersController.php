@@ -7,6 +7,8 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use app\Exceptions\Handler;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\resetPassword;
 
 class UsersController extends Controller
 {
@@ -120,6 +122,36 @@ class UsersController extends Controller
     public function getUser($id){
 
         return User::where('id', $id)->first();
+    }
+
+    public function sendEmailResetPassword(Request $request){
+        $email = $request->email;
+        
+        $admin = User::where('email', $email)->first();
+        if($admin){
+             Mail::to($admin->email)->send(new resetPassword($admin->id));  
+        }
+        else{
+            abort(500);
+        }
+        
+        // Mail::to($email)->send(new setPassword($created->id, $confirmation_code, $temporary_password));
+        
+    }
+
+    public function resetPassword($id){
+        return $id;
+        // $email = $request->email;
+        // $admin = User::where('email', $email)->first();
+        // if($admin){
+        //      Mail::to($admin->id)->send(new resetPassword($admin->id));  
+        // }
+        // else{
+        //     abort(500);
+        // }
+        
+        // Mail::to($email)->send(new setPassword($created->id, $confirmation_code, $temporary_password));
+        
     }
 
 }
