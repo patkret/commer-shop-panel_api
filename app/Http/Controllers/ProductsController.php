@@ -48,7 +48,7 @@ class ProductsController extends Controller
         $new_product['barcode_simple'] = escape_like($new_product['barcode']);
 
         $created = Product::create($new_product);
-        $created->categories()->attach($new_product['categories']);
+//        $created->categories()->attach($new_product['categories']);
         $created->relatedProducts()->attach($new_product['relatedProducts']);
 
         Log::createNew($product->mod_id, $created->name, 'add');
@@ -97,7 +97,7 @@ class ProductsController extends Controller
 
     public function getProduct($id)
     {
-        $product = Product::with('vendor', 'vatRate', 'stock', 'mainCategory', 'relatedProducts')->where('id', $id)->first();
+        $product = Product::with('vendor', 'vatRate', 'stock', 'mainCategory', 'relatedProducts', 'descriptionTemplate')->where('id', $id)->first();
 
         return $product;
     }

@@ -33,7 +33,12 @@ class Product extends Model
             'main_category',
             'barcode_simple',
             'wholesale_price',
-            'weight_unit'];
+            'weight_unit',
+            'meta_keywords',
+            'meta_description',
+            'url',
+            'description_template_id'
+            ];
 
 
     protected $table = 'products';
@@ -75,6 +80,11 @@ class Product extends Model
     public function relatedProducts()
     {
         return $this->belongsToMany(Product::class, 'product_has_related_product', 'product_id', 'related_product_id');
+    }
+
+    public function descriptionTemplate()
+    {
+        return $this->hasOne(DescriptionTemplate::class, 'id', 'description_template_id');
     }
 
 }
