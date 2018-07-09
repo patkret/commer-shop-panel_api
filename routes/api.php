@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
+
+Route::get('/import', 'ImportController@index');
+
 Route::group([
 //	'middleware' => 'acl'
 //	'middleware' => 'jwt'
@@ -70,6 +73,10 @@ Route::group([
     Route::post('products-search', 'ProductsController@search');
     Route::resource('products', 'ProductsController');
 
+//  Description Templates Routes
+    Route::get('description-templates/{id}', 'DescriptionTemplateController@getTemplate');
+    Route::resource('description-templates', 'DescriptionTemplateController');
+
 
 //    Users Routes
     Route::resource('users', 'UsersController');
@@ -114,7 +121,9 @@ Route::group([
 
 
     Route::post('panel-search', 'HelperController@panelSearch');
-
+//  Emails Routes
+    Route::resource('emails', 'EmailsController');
+    Route::put('emails/{id}/change-active', 'EmailsController@changeActive');
 
 });
 
