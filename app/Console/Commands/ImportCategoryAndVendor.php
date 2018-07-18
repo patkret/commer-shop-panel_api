@@ -49,31 +49,38 @@ class ImportCategoryAndVendor extends Command
 		]);
 
 		VatRate::create([
-			'rate' => 23
+			'rate' => 23,
+			'name' => 23
 		]);
 
 		VatRate::create([
-			'rate' => 3
+			'rate' => 3,
+			'name' => 3
 		]);
 
 		VatRate::create([
-			'rate' => 2
+			'rate' => 2,
+			'name' => 2
 		]);
 
 		VatRate::create([
-			'rate' => 5
+			'rate' => 5,
+			'name' => 5
 		]);
 
 		VatRate::create([
-			'rate' => 8
+			'rate' => 8,
+			'name' => 8
 		]);
 
 		VatRate::create([
-			'rate' => 22
+			'rate' => 22,
+			'name' => 22
 		]);
 
 		VatRate::create([
-			'rate' => 7
+			'rate' => 7,
+			'name' => 7
 		]);
 
 		Vendor::create([
@@ -86,7 +93,7 @@ class ImportCategoryAndVendor extends Command
 			$results = $reader->all();
 			foreach($results->toArray() as $result) {
 				if($result['marka']!=null){
-					$category = Category::where('name', $result['producent'])->first();
+					$category = Category::where('name', $result['marka'])->first();
 					if(!$category) {
 						Category::create([
 							'name' => $result['marka']
