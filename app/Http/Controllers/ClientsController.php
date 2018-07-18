@@ -28,7 +28,7 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        $clients = Client::all();
+        $clients = Client::paginate(10);
 
         return $clients;
     }
@@ -45,13 +45,12 @@ class ClientsController extends Controller
     {
         $data = $request->all();
         $temporary_password = str_random(8);
-        $data['password'] = bcrypt($temporary_password);
-        $data['status'] = 1;
-
+        $data['client']['password'] = bcrypt($temporary_password);
+        $data['client']['status'] = 1;
         $confirmation_code = str_random(30);
 
-        $created = $client->create($data);
-        $shipping_info = $request->shipping_details;
+        $created = $client->create($data['client']);
+        $shipping_info = $data['client']['shippingDetails'];
         $shipping_info['client_id'] = $created->id;
         ShippingDetail::create($shipping_info);
 
@@ -167,7 +166,8 @@ class ClientsController extends Controller
 
         $input = $request->nipToCheck;
 
-        $client = Client::where('NIP', 'LIKE', '%' . $input . '%')
+        $client = Client::with('shippingDetails')
+            ->where('NIP', 'LIKE', '%' . $input . '%')
             ->limit(5)
             ->get();
 
@@ -195,7 +195,7 @@ class ClientsController extends Controller
         $client_id = Route::current()->parameter('client_id');
         $client = Client::where('id', $client_id)->first();
 
-        if (Carbon::now()->greaterThan($client->created_at->addMinute())) {
+        if (Carbon::now()->greaterThan($client->created_at->addDay())) {
 
             return "Link do zmiany hasła wygasł. Prosimy zaloguj się tymczasowym hasłem i w swoim panelu ustaw nowe hasło";
 

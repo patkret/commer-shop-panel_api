@@ -17,4 +17,9 @@ class Client extends Model
         return $this->hasMany(ClientDiscount::class);
     }
 
+    public function shippingDetails(){
+
+        return $this->hasMany(ShippingDetail::class);
+    }
+
 }
