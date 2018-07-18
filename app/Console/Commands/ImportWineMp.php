@@ -5,8 +5,10 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use Maatwebsite\Excel\Facades\Excel;
-
-
+use App\Vendor;
+use App\Product;
+use App\Category;
+use App\VatRate;
 class ImportWineMp extends Command
 {
     /**
@@ -48,11 +50,38 @@ class ImportWineMp extends Command
    
             $results = $reader->all();
             foreach($results->toArray() as $result) {
-                print_r($result);
+                //print_r($result);
+                $barcode_simple = $result['kod_kreskowy'];
+                $barcode_simple = escape_like($result['kod_kreskowy']);
+                
+                Product::create([
+                    'name' => $result['nazwa'],
+                    'symbol' => $result['symbol'],
+                    'barcode' => $result['kod_kreskowy'],
+                    'barcode_simple' => $barcode_simple,
+                    'pkwiuCode' => 0,
+                    'weight' => 0,
+                    'height' => 0,
+                    'width' => 0,
+                    'depth' => 0,
+                    'meta_description' => $result['opis_zast'],
+                    'meta_keywords' => 0,
+                    'url' => 0,
+                    'vendor' => Vendor::where('name', $result['producent'])->first()->id,
+                    'visibility' => $result['status'],
+                    'vat_rate' => VatRate::where('rate', $result['wys_vat'])->first()->id,
+                    'shortDescription' => 0,
+                    'longDescription' => 0,
+                    'price' => $result['cena_det_brutto'],
+                    'main_category' => Category::where('name', $result['marka'])->first()->id,
+                    'stockAvail' => 0,
+                    'attributeSets' => 0,
+                    'variantSets' => 0,
+                    'selectedVariantSet' => 0,
+                    'stock' => 1,
 
-                // Product::create([
-                //     'name' => $result['nazwa'],
-                // ]);
+                ]);
+                print_r('done ');
             }
         
         });
