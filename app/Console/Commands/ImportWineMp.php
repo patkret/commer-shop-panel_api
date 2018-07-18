@@ -54,10 +54,26 @@ class ImportWineMp extends Command
                 $barcode_simple = $result['kod_kreskowy'];
                 $barcode_simple = escape_like($result['kod_kreskowy']);
                 
+                $vendor = Vendor::where('name', $result['producent'])->first();
+                if($vendor) {
+                    $vendor = $vendor->id;
+                } else {
+                    $vendor = Vendor::where('name', 'All')->first()->id;
+                }
+
+                $this->info($result['nazwa'] . ' - ' . $result['producent'] . ' - ' . $result['wys_vat'] . ' - ' . $result['marka']);
+
+                $category = Category::where('name', $result['marka'])->first();
+                if(!$category) {
+                    $category = Category::where('name', 'All')->first()->id;
+                } else {
+                    $category = Category::where('name', $result['marka'])->first()->id;
+                }
+
                 Product::create([
                     'name' => $result['nazwa'],
                     'symbol' => $result['symbol'],
-                    'barcode' => $result['kod_kreskowy'],
+                    'barcode' => ($result['kod_kreskowy']) ? $result['kod_kreskowy'] : 1,
                     'barcode_simple' => $barcode_simple,
                     'pkwiuCode' => 0,
                     'weight' => 0,
@@ -67,21 +83,22 @@ class ImportWineMp extends Command
                     'meta_description' => $result['opis_zast'],
                     'meta_keywords' => 0,
                     'url' => 0,
-                    'vendor' => Vendor::where('name', $result['producent'])->first()->id,
-                    'visibility' => $result['status'],
+                    'vendor' => $vendor,
+                    'visibility' => intval($result['status']),
                     'vat_rate' => VatRate::where('rate', $result['wys_vat'])->first()->id,
                     'shortDescription' => 0,
                     'longDescription' => 0,
                     'price' => $result['cena_det_brutto'],
-                    'main_category' => Category::where('name', $result['marka'])->first()->id,
+                    'main_category' => $category,
                     'stockAvail' => 0,
                     'attributeSets' => 0,
                     'variantSets' => 0,
                     'selectedVariantSet' => 0,
                     'stock' => 1,
+                    'wholesale_price' => 0
 
                 ]);
-                print_r('done ');
+                
             }
         
         });
