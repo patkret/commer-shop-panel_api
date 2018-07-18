@@ -73,6 +73,10 @@ Route::group([
     Route::post('products-search', 'ProductsController@search');
     Route::resource('products', 'ProductsController');
 
+//  Description Templates Routes
+    Route::get('description-templates/{id}', 'DescriptionTemplateController@getTemplate');
+    Route::resource('description-templates', 'DescriptionTemplateController');
+
 
 //    Users Routes
     Route::resource('users', 'UsersController');
