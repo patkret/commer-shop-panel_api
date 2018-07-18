@@ -67,10 +67,12 @@ Route::group([
     Route::get('products-sort-price-desc', 'ProductsController@sortByPriceDesc');
     Route::get('products-sort-name', 'ProductsController@sortByName');
     Route::get('products-sort-recently-added', 'ProductsController@sortByRecentlyAdded');
-    Route::get('/products-filter', 'ProductsController@filter');
+    Route::get('products-search', 'ProductsController@search2');
+    Route::get('test1234', 'ProductsController@abc');
+    Route::get('krzysiek', 'ProductsController@krzysiek');
     Route::get('/products-max-price', 'ProductsController@getMaxPrice');
     Route::get('/products-count', 'ProductsController@numberOfProducts');
-    Route::post('products-search', 'ProductsController@search');
+    Route::post('/products-search', 'ProductsController@search');
     Route::resource('products', 'ProductsController');
 
 //  Description Templates Routes

@@ -213,10 +213,8 @@ class ProductsController extends Controller
         return $max_price;
     }
 
-    public function filter(Request $request)
+    public function krzysiek(Request $request)
     {
-
-
         $orderby = $request->get('order_by');
         $order = $request->get('order');
         $rows = $request->get('rows');
@@ -251,7 +249,7 @@ class ProductsController extends Controller
             })
             ->orWhere('barcode_simple', 'LIKE', '%'. $query . '%')
             ->orWhere('price', 'LIKE', '%' . $query . '%')
-            ->orderBy($orderby, $order)
+            // ->orderBy($orderby, $order)
             ->with('vendor')
             ->with('stock')
             ->paginate($rows);
@@ -263,5 +261,59 @@ class ProductsController extends Controller
         }
 
         return $list;
+    }
+
+    public function search2()
+    {
+
+
+        // $orderby = $request->get('order_by');
+        // $order = $request->get('order');
+        // $rows = $request->get('rows');
+        // $price_from = $request->get('price_from', false);
+        // $price_to = $request->get('price_to', false);
+        // $vendor = $request->get('vendor', false);
+        // $category = $request->get('main_category', false);
+        // $visibility = $request->get('visibility', false);
+
+
+        // $query = escape_like($request['search']);
+
+        // $searchNameValues = preg_split('/\s+/', $request['search'], -1, PREG_SPLIT_NO_EMPTY);
+
+
+        // $list = Product::when($visibility != 'null', function ($query) use ($visibility) {
+        //     return $query->where('visibility', $visibility);
+        // })
+        //     ->when($vendor, function ($query) use ($vendor) {
+        //         return $query->where('vendor', $vendor);
+        //     })
+        //     ->when($category, function ($query) use ($category) {
+        //         return $query->where('main_category', $category);
+        //     })
+        //     ->when(($price_from && $price_to), function ($query) use ($price_from, $price_to) {
+        //         return $query->whereBetween('price', [$price_from, $price_to]);
+        //     })
+        //     ->where(function ($q) use ($searchNameValues, $query) {
+        //         foreach ($searchNameValues as $value) {
+        //             $q->orWhere('name', 'like', "%{$value}%");
+        //         }
+        //     })
+        //     ->orWhere('barcode_simple', 'LIKE', '%'. $query . '%')
+        //     ->orWhere('price', 'LIKE', '%' . $query . '%')
+        //     ->orderBy($orderby, $order)
+        //     ->with('vendor')
+        //     ->with('stock')
+        //     ->paginate($rows);
+
+        // foreach ($list as $product){
+        //     $stock_count = WarehouseItem::where('warehouse_id', $product->stock)->count();
+
+        //     $product['stock_count'] = $stock_count;
+        // }
+
+        // return $list;
+
+        return [1,2,3];
     }
 }
