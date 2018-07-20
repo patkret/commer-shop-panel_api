@@ -7,6 +7,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Vendor;
 use App\Category;
 use App\Warehouse;
+use App\VatRate;
+
 class ImportCategoryAndVendor extends Command
 {
     /**
@@ -42,36 +44,88 @@ class ImportCategoryAndVendor extends Command
     {
         $pathToFile = storage_path('app/towary.csv');
 
+		Category::create([
+			'name' => 'All'
+		]);
+
+		VatRate::create([
+			'rate' => 23,
+			'name' => 23
+		]);
+
+		VatRate::create([
+			'rate' => 3,
+			'name' => 3
+		]);
+
+		VatRate::create([
+			'rate' => 2,
+			'name' => 2
+		]);
+
+		VatRate::create([
+			'rate' => 5,
+			'name' => 5
+		]);
+
+		VatRate::create([
+			'rate' => 8,
+			'name' => 8
+		]);
+
+		VatRate::create([
+			'rate' => 22,
+			'name' => 22
+		]);
+
+		VatRate::create([
+			'rate' => 7,
+			'name' => 7
+		]);
+
+		Vendor::create([
+			'name' => 'All'
+		]);
 
         Excel::load($pathToFile, function($reader) {
 
    
-            $results = $reader->all();
-            foreach($results->toArray() as $result) {
-        if($result['marka']==null){
-            $result['marka'] = 'brak';
-        }
-        if($result['producent']==null){
-            $result['producent'] = 'brak';
-        }
-        if($result['nazwa']==null){
-            $result['nazwa'] = 'brak';
-        }
-        Vendor::create([
-            'name' => $result['producent']
-        ]);
-        Category::create([
-            'name' => $result['marka']
-        ]);
-        Warehouse::create([
-            'name' => $result['nazwa']
-        ]);
-        
-        print_r('done');
+			$results = $reader->all();
+			foreach($results->toArray() as $result) {
+				if($result['marka']!=null){
+					$category = Category::where('name', $result['marka'])->first();
+					if(!$category) {
+						Category::create([
+							'name' => $result['marka']
+						]);
+					}
 
-    }
-        
-});
-}
+				}
+				if($result['producent']!=null){
+
+					$vendor = Vendor::where('name', $result['producent'])->first();
+					if(!$vendor) {
+						Vendor::create([
+							'name' => $result['producent']
+						]);
+					}
+
+			
+				}
+				if($result['nazwa']==null){
+					$result['nazwa'] = 'brak';
+				}
+
+
+				Warehouse::create([
+					'name' => $result['nazwa']
+				]);
+				
+				$this->info('added: ' . $result['nazwa']);
+
+			}
+			
+		});
+	}
 }
 
