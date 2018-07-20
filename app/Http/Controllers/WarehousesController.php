@@ -16,6 +16,7 @@ class WarehousesController extends Controller
     public function index()
     {
 
+        // $warehouses = Warehouse::with('warehouseItems')->paginate(25);
         $warehouses = Warehouse::with('warehouseItems')->get();
 
         return $warehouses;
@@ -90,5 +91,11 @@ class WarehousesController extends Controller
     public function getWarehouse($id)
     {
        return Warehouse::where('id', $id)->first();
+    }
+    public function getAll()
+    {
+       $warehouses = Warehouse::with('warehouseItems')->paginate(25);
+
+       return $warehouses;
     }
 }

@@ -88,7 +88,7 @@ Route::group([
     Route::get('modules', 'UserModuleAccessesController@getShopModules');
     Route::get('access-rights', 'UserModuleAccessesController@getAccessRights');
     Route::resource('user-access', 'UserModuleAccessesController');
-    
+
     Route::post('/users/test', 'UsersController@test');
 
 //    Warehouse Routes
@@ -97,6 +97,7 @@ Route::group([
     Route::get('/warehouse-items/{id}', 'WarehouseItemsController@index');
     Route::resource('/warehouse-items', 'WarehouseItemsController');
     Route::get('/last-group-id', 'WarehouseItemsController@getLastGroupId');
+    Route::get('/warehouses-all', 'WarehousesController@getAll');
 
 
 //  Static Pages Routes
