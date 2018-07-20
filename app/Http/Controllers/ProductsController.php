@@ -66,12 +66,12 @@ class ProductsController extends Controller
     public function update(Request $request, Product $product)
     {
         $name_before_update = $product->name;
-        $product->update($request->product);
+        $product->update((array)$request->product);
         $product->categories()->sync($request->categories);
 
         Log::createNew($product->mod_id, $name_before_update, 'edit');
 
-        return ['status' => 1];
+        return $product;
     }
 
     /**
@@ -215,8 +215,6 @@ class ProductsController extends Controller
 
     public function filter(Request $request)
     {
-
-
         $orderby = $request->get('order_by');
         $order = $request->get('order');
         $rows = $request->get('rows');
@@ -231,7 +229,6 @@ class ProductsController extends Controller
 
         $searchNameValues = preg_split('/\s+/', $request['search'], -1, PREG_SPLIT_NO_EMPTY);
 
-
         $list = Product::when($visibility != 'null', function ($query) use ($visibility) {
             return $query->where('visibility', $visibility);
         })
@@ -239,18 +236,17 @@ class ProductsController extends Controller
                 return $query->where('vendor', $vendor);
             })
             ->when($category, function ($query) use ($category) {
-                return $query->where('main_category', $category);
+                return $query->where('main_category', '=', $category);
             })
-            ->when(($price_from && $price_to), function ($query) use ($price_from, $price_to) {
+            ->when(($price_from || $price_to), function ($query) use ($price_from, $price_to) {
                 return $query->whereBetween('price', [$price_from, $price_to]);
             })
             ->where(function ($q) use ($searchNameValues, $query) {
                 foreach ($searchNameValues as $value) {
                     $q->orWhere('name', 'like', "%{$value}%");
+                    $q->orWhere('barcode_simple', 'LIKE', '%'. $query . '%');
                 }
             })
-            ->orWhere('barcode_simple', 'LIKE', '%'. $query . '%')
-            ->orWhere('price', 'LIKE', '%' . $query . '%')
             ->orderBy($orderby, $order)
             ->with('vendor')
             ->with('stock')
